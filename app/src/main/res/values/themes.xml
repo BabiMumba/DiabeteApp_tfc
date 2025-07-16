@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Diabete" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/Accent</item>
+        <item name="colorPrimaryDark" >@color/Accent</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/Accent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorAccent">@color/Accent</item>
+    </style>
+    <style name="KeyButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#212121</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+
+    <style name="Theme.Diabete" parent="Base.Theme.Diabete" />
+</resources>

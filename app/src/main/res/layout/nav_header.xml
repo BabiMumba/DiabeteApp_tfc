@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient_profil"
+    android:layout_height="@dimen/_150sdp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_profil"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/profil_women"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="@dimen/_2sdp" />
+    <TextView
+        android:id="@+id/name_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Babi Mumba"
+        android:layout_below="@id/user_profil"
+       android:layout_marginStart="@dimen/_10sdp"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/_15ssp"
+        android:layout_marginTop="@dimen/_5ssp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/admin_function"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Administrateur"
+        android:layout_below="@id/name_user"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:textColor="#FFBF00"
+        android:textSize="@dimen/_13ssp"
+        android:layout_marginTop="@dimen/_5ssp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        />
+
+
+
+</RelativeLayout>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Diabete</string>
+    <string name="create_count">Vous n\'avez pas de compte ? <font color="#2241F6"> Créer un compte</font></string>
+    <string name="havecounte">Vous avez déjà un compte ? <font color="#2241F6"> Se connecter</font></string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="nav_drawer_items">
+        <item>Mesures</item>
+        <item>Graphique</item>
+        <item>Rappels</item>
+        <item>Mon Profil</item>
+        <item>Paramètres</item>
+        <item>Déconnexion</item>
+    </string-array>
+
+    <string-array name="genre">
+        <item>Sexe</item>
+        <item>Homme</item>
+        <item>Femme</item>
+    </string-array>
+    <string-array name="activivitephysique">
+        <item>Activité Physique</item>
+        <item>Acrobatie</item>
+        <item>Jet Ski</item>
+        <item>Natation</item>
+        <item>Course</item>
+        <item>Marche</item>
+        <item>Vélo</item>
+        <item>Musculation</item>
+        <item>Yoga</item>
+        <item>Autre</item>
+    </string-array>
+</resources>

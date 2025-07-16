@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/home_fragment"
+        android:title="Accueil"
+        android:icon="@drawable/baseline_home_24"
+        />
+    <item
+        android:id="@+id/history"
+        android:iconTint="@color/Accent"
+        android:icon="@drawable/baseline_access_time_24"
+        android:title="Historique" />
+
+    <item android:id="@+id/menuFr"
+        android:title="Menu"
+        android:icon="@drawable/baseline_menu_24"
+        />
+
+
+</menu>

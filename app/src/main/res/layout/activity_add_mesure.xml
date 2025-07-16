@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutAjouter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/backgroud"
+    android:paddingBottom="@dimen/_16sdp"
+    >
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/Accent" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:backgroundTint="@color/Accent"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/backgroud"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    app:tint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_keyboard_backspace_24"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/btnBack"
+                    />
+                <TextView
+                    android:fontFamily="serif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nouvel Enregistrement"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15ssp"
+                    android:id="@+id/titreTl"
+                    />
+
+
+            </RelativeLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp"
+            >
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:padding="@dimen/_10sdp"
+                >
+                <LinearLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DATE ET HEURE"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/primary_text"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/md_grey_600"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sélectionner la date"
+                        android:backgroundTint="@color/backgroud"
+                        android:textColor="@color/primary_text"
+                        android:id="@+id/btnSelectDate"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:padding="@dimen/_10sdp"
+                        app:cornerRadius="@dimen/_5sdp"
+                        />
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:padding="@dimen/_10sdp"
+                >
+                <LinearLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NIVEAUX DE GLYCÉMIE"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/primary_text"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/md_grey_600"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Niveau de glycémie (mg/dL)"
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/primary_text"
+                            android:layout_weight="1"
+                            />
+                        <EditText
+                            android:id="@+id/etNiveauGlycemie"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Ex: 85 mg/dL"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/_14ssp"
+                            android:background="@drawable/background_input_new"
+                            />
+
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:padding="@dimen/_10sdp"
+                >
+                <LinearLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DOSE D'INSULINE"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/primary_text"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/md_grey_600"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Insuline rapide(Unité)"
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/primary_text"
+                            android:layout_weight="1"
+                            />
+                        <EditText
+                            android:id="@+id/insulineRapide"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Ex: 10 Unités"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/_14ssp"
+                            android:background="@drawable/background_input_new"
+                            />
+
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:padding="@dimen/_10sdp"
+                >
+                <LinearLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PRESSION ARTERIELLE"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/primary_text"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/md_grey_600"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Systolique(superieur) "
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/primary_text"
+                            android:layout_weight="1"
+                            />
+                        <EditText
+                            android:id="@+id/presionnArtSup"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Ex: 13 mm Hg"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/_14ssp"
+                            android:background="@drawable/background_input_new"
+                            />
+
+
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Diastolique(bas) "
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/primary_text"
+                            android:layout_weight="1"
+                            />
+                        <EditText
+                            android:id="@+id/presionnArtbas"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Ex: 34 mm Hg"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/_14ssp"
+                            android:background="@drawable/background_input_new"
+                            />
+
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:padding="@dimen/_10sdp"
+                >
+                <LinearLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ACTIVITE PHYSIQUE"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/primary_text"
+                        android:layout_gravity="center_horizontal"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/md_grey_600"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_input_new"
+                        android:text="Sélectionner l'activité"
+                        android:textColor="@color/primary_text"
+                        android:id="@+id/btnSelectActivity"
+                        android:textSize="@dimen/_14ssp"
+                        app:cornerRadius="@dimen/_5sdp"
+                        android:entries="@array/activivitephysique"
+                        />
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Duree(min) "
+                            android:textSize="@dimen/_14ssp"
+                            android:textColor="@color/primary_text"
+                            android:layout_weight="1"
+                            />
+                        <EditText
+                            android:id="@+id/min"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Ex: 20 min"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/_14ssp"
+                            android:background="@drawable/background_input_new"
+                            />
+
+
+
+
+                    </LinearLayout>
+                    <EditText
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:id="@+id/comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Commentaire"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/_14ssp"
+                        android:background="@drawable/background_input_new"
+                        />
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="Enregistrer "
+                app:cornerRadius="@dimen/_5sdp"
+                android:textSize="@dimen/_13ssp"
+                android:backgroundTint="@color/Accent"
+                android:textColor="@color/white"
+                android:padding="@dimen/_10sdp"
+                />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+
+</LinearLayout>

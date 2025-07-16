@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="rouge">#FF0000</color>
+    <color name="vert">#2FFF00</color>
+    <color name="Accent">#2241F6</color>
+    <color name="primary">#2241F6</color>
+    <color name="backgroud">#F7F7FA</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="primary_text">#000000</color>
+    <color name="secondary_text">#9B9A9D</color>
+    <color name="input_background">#D8D5D5</color>
+    <color name="grey">#a9a9a9</color>
+    <color name="black">#000000</color>
+    <color name="loader_background_color">#55AAAAAA</color>
+    <color name="blue_accent_300">#02d5ee</color>
+    <color name="image_profile">#e0e0e0</color>
+    <color name="gris">#A9A7A7</color>
+    <color name="dark_yellow">#FFC107</color>
+    <color name="md_grey_600">#757575</color>
+    <color name="shimmer_color">#666565</color>
+    <color name="gray">#dddddd</color>
+    <color name="orange_claire">#fbe6dd</color>
+    <color name="jaune">#FFC107</color>
+    <color name="bleu">#0051FF</color>
+    <color name="grise">#3CC5BCBC</color>
+    <color name="red">#FF0000</color>
+    <color name="noir_trans">#85000000</color>
+
+    <color name="blue_primary">#2196F3</color>
+    <color name="blue_dark">#1976D2</color>
+    <color name="blue_light">#BBDEFB</color>
+    <color name="text_color_primary">#212121</color>
+    <color name="text_color_secondary">#757575</color>
+    <color name="green_range">#8BC34A</color>
+    <color name="red_range">#F44336</color>
+    <color name="grey_background">#F5F5F5</color>
+</resources>

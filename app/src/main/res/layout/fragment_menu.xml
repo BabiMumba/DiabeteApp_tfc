@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.MenuFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp"
+        >
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:padding="@dimen/_10sdp"
+            >
+            <RelativeLayout
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_alignParentStart="true"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/profil_women"
+                    android:id="@+id/img_profil"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mon Compte"
+                    android:textSize="18sp"
+                    android:layout_toEndOf="@id/img_profil"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    />
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/baseline_chevron_right_24"
+                    app:tint="@color/primary_text"
+                    android:contentDescription="Arrow Icon"
+                    android:id="@+id/arrow_icon"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    />
+
+
+
+
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:padding="@dimen/_10sdp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <RelativeLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_alignParentStart="true"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:src="@drawable/baseline_folder_shared_24"
+                        android:id="@+id/sharefolder"
+                        app:tint="@color/Accent"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="accès partagé"
+                        android:textSize="18sp"
+                        android:layout_toEndOf="@id/sharefolder"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_text"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/baseline_chevron_right_24"
+                        app:tint="@color/primary_text"
+                        android:contentDescription="Arrow Icon"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_centerVertical="true"
+                        />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_alignParentStart="true"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:src="@drawable/exporte_ic"
+                        android:id="@+id/exporte"
+                        app:tint="@color/Accent"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Exporter"
+                        android:textSize="18sp"
+                        android:layout_toEndOf="@id/exporte"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_text"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/baseline_chevron_right_24"
+                        app:tint="@color/primary_text"
+                        android:contentDescription="Arrow Icon"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_centerVertical="true"
+                        />
+
+
+
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_alignParentStart="true"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:src="@drawable/baseline_notifications_active_24"
+                        android:id="@+id/notification"
+                        app:tint="@color/Accent"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Notification"
+                        android:textSize="18sp"
+                        android:layout_toEndOf="@id/notification"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_text"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/baseline_chevron_right_24"
+                        app:tint="@color/primary_text"
+                        android:contentDescription="Arrow Icon"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_centerVertical="true"
+                        />
+
+
+
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_alignParentStart="true"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:src="@drawable/baseline_settings_24"
+                        android:id="@+id/setting"
+                        app:tint="@color/Accent"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Paramettre"
+                        android:textSize="18sp"
+                        android:layout_toEndOf="@id/setting"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_text"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/baseline_chevron_right_24"
+                        app:tint="@color/primary_text"
+                        android:contentDescription="Arrow Icon"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_centerVertical="true"
+                        />
+
+
+
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </LinearLayout>
+
+
+
+</androidx.core.widget.NestedScrollView>
