@@ -4,9 +4,9 @@ data class DonneeMedicale(
     val id: String = "",
     val patientId: String = "",
     val dateHeure: String = "",
-    val glycemie: Double = 0.0,
+    val glycemie: String = "", // String pour gestion saisie utilisateur
     val repas: String? = null,
-    val insuline: Double? = null,
+    val insuline: String? = null, // String pour gestion saisie utilisateur
     val activite: String? = null,
     val commentaire: String? = null,
     val mesureValide: Boolean = true,

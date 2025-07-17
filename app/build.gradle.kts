@@ -62,10 +62,13 @@ dependencies {
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
   /*  implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
     implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui:12.1.0")*/
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     //Gson
     implementation("com.google.code.gson:gson:2.8.8")
 
     //SwipeRefreshLayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    // view model
+    implementation("androidx.fragment:fragment-ktx:1.8.8")
 }

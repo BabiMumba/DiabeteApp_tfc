@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 import bm.babimumba.diabete.MainActivity
 import bm.babimumba.diabete.R
 import bm.babimumba.diabete.databinding.ActivityRegisterBinding
@@ -17,6 +19,8 @@ import bm.babimumba.diabete.utils.Constant
 import bm.babimumba.diabete.utils.Constant.PREF_KEY_USER_NAME
 import bm.babimumba.diabete.utils.Constant.PREF_NAME
 import bm.babimumba.diabete.utils.VOID
+import bm.babimumba.diabete.viewmodel.RegisterViewModel
+import bm.babimumba.diabete.viewmodel.RegisterState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,6 +29,7 @@ import java.util.Date
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
+    private val registerViewModel: RegisterViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -42,11 +47,40 @@ class RegisterActivity : AppCompatActivity() {
         //change tint color
         binding.btnSave.btnModelUi.backgroundTintList = resources.getColorStateList(R.color.primary)
 
+        // Observer l'état d'inscription
+        registerViewModel.registerState.observe(this, Observer { state ->
+            when (state) {
+                is RegisterState.Loading -> {
+                    binding.progressBar.visibility = android.view.View.VISIBLE
+                }
+                is RegisterState.Success -> {
+                    binding.progressBar.visibility = android.view.View.GONE
+                    VOID.showSnackBar(binding.root, "Inscription réussie")
+                    VOID.Intent1(this, MainActivity::class.java)
+                    finish()
+                }
+                is RegisterState.Error -> {
+                    binding.progressBar.visibility = android.view.View.GONE
+                    VOID.showSnackBar(binding.root, state.message)
+                }
+            }
+        })
+
         binding.btnSave.btnModelUi.setOnClickListener {
-            // Vérifier si tous les champs sont valides
             if (ChampValide()) {
-                // Si tous les champs sont valides, procéder à l'inscription
-                registerwithEmail()
+                // Récupérer le rôle sélectionné
+                val selectedRole = if (binding.radioGroupRole.checkedRadioButtonId == R.id.radioMedecin) "medecin" else "patient"
+                // Appel ViewModel
+                registerViewModel.registerPatient(
+                    name = binding.name.text.toString(),
+                    postnom = binding.postnom.text.toString(),
+                    email = binding.email.text.toString(),
+                    poids = binding.poindEdt.text.toString(),
+                    dateNaissance = binding.btnDateNaissance.text.toString(),
+                    sexe = binding.spinnerSexe.selectedItem.toString(),
+                    password = binding.password.text.toString(),
+                    role = selectedRole
+                )
             }
         }
         binding.textRegister.setOnClickListener {
@@ -161,7 +195,9 @@ class RegisterActivity : AppCompatActivity() {
         DATA_USER["sexe"] = binding.spinnerSexe.selectedItem.toString()
         DATA_USER["date_inscription"] = date_dins
         DATA_USER["type_diabete"] = "TYPE_2"
-        DATA_USER["role"] = "patient"
+        // Récupérer le rôle sélectionné dans le RadioGroup
+        val selectedRole = if (binding.radioGroupRole.checkedRadioButtonId == R.id.radioMedecin) "medecin" else "patient"
+        DATA_USER["role"] = selectedRole
         DATA_USER["id"] = FIREBASE_USER?.uid.toString()
         database.collection(Constant.PATIENT_COLLECTION)
             .document(FIREBASE_USER?.uid.toString())
