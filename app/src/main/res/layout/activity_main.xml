@@ -44,7 +44,7 @@
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     app:civ_border_width="@dimen/_3sdp"
-                    app:civ_border_color="#FFC107"
+                    app:civ_border_color="@color/white"
                     android:src="@drawable/profil_women"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"

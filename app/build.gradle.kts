@@ -71,4 +71,7 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     // view model
     implementation("androidx.fragment:fragment-ktx:1.8.8")
+
+    //material
+    //implementation("com.google.android.material:material:1.12.0")
 }

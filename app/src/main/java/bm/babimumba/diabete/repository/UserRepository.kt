@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 import bm.babimumba.diabete.model.DonneeMedicale
 import android.util.Log
+import bm.babimumba.diabete.model.Rappel
 
 class UserRepository {
     fun registerPatient(
@@ -158,5 +159,51 @@ class UserRepository {
         val moyenne = valeurs.average()
 
         return Triple(min, moyenne, max)
+    }
+
+    fun ajouterRappel(
+        userId: String,
+        rappel: Rappel,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("patients").document(userId)
+            .collection("rappels")
+            .document(rappel.id.toString())
+            .set(rappel)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { e -> onError(e.localizedMessage ?: "Erreur lors de l'ajout du rappel") }
+    }
+
+    fun supprimerRappel(
+        userId: String,
+        rappelId: Int,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("patients").document(userId)
+            .collection("rappels")
+            .document(rappelId.toString())
+            .delete()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { e -> onError(e.localizedMessage ?: "Erreur lors de la suppression du rappel") }
+    }
+
+    fun getRappels(
+        userId: String,
+        onSuccess: (List<Rappel>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("patients").document(userId)
+            .collection("rappels")
+            .get()
+            .addOnSuccessListener { result ->
+                val rappels = result.documents.mapNotNull { it.toObject(Rappel::class.java) }
+                onSuccess(rappels)
+            }
+            .addOnFailureListener { e -> onError(e.localizedMessage ?: "Erreur lors de la récupération des rappels") }
     }
 } 

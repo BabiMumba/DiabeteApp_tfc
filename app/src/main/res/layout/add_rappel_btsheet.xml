@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_16sdp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Créer un rappel"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_text"
+            android:layout_marginBottom="@dimen/_10sdp"/>
+
+        <!-- Date et heure du rappel -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDateTimePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choisir la date et l'heure"
+            android:layout_marginTop="@dimen/_5sdp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+        <TextView
+            android:id="@+id/tvDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aucune date sélectionnée"
+            android:textSize="@dimen/_14ssp"
+            android:textColor="@color/primary_text"
+            android:layout_marginTop="@dimen/_5sdp"/>
+
+        <!-- Type de rappel -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type de rappel"
+            android:layout_marginTop="@dimen/_10sdp">
+            <AutoCompleteTextView
+                android:id="@+id/typeRappel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:completionThreshold="1"
+                android:dropDownHeight="wrap_content"
+                android:dropDownWidth="match_parent"
+                android:background="@drawable/background_input_new"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Message du rappel -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Message (optionnel)"
+            android:layout_marginTop="@dimen/_10sdp">
+            <EditText
+                android:id="@+id/messageRappel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Répétition -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/_10sdp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Répéter chaque jour"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/primary_text"/>
+            <Switch
+                android:id="@+id/switchRepetition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"/>
+        </LinearLayout>
+
+        <!-- Bouton enregistrer -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveRappel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enregistrer le rappel"
+            android:layout_marginTop="@dimen/_20sdp"
+            style="@style/Widget.MaterialComponents.Button"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

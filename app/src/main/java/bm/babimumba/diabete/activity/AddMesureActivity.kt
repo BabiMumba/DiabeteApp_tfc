@@ -18,12 +18,14 @@ import bm.babimumba.diabete.viewmodel.AddMesureViewModel
 import bm.babimumba.diabete.viewmodel.AddMesureState
 import bm.babimumba.diabete.model.DonneeMedicale
 import com.google.firebase.auth.FirebaseAuth
+import java.util.Calendar
 
 class AddMesureActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddMesureBinding
     private val addMesureViewModel: AddMesureViewModel by viewModels()
     private var selectedDate: String = ""
+    private var selectedTimestamp: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,23 +67,18 @@ class AddMesureActivity : AppCompatActivity() {
         binding.btnSave?.setOnClickListener {
             val glycemie = binding.etNiveauGlycemie.text.toString().trim()
             val insuline = binding.insulineRapide.text.toString().trim()
-            val dateHeure = selectedDate.ifEmpty { binding.btnSelectDate.text.toString() }
-            val activity = binding.btnSelectActivity.selectedItem.toString()
-            val commentaire = binding.comment.text.toString().trim()
             // Validation simple
-            if (glycemie.isEmpty()) {
-                Toast.makeText(this, "Veuillez saisir la glycémie ", Toast.LENGTH_SHORT).show()
+            if (glycemie.isEmpty() || (binding.btnSelectDate.text.contains("Sélectionner"))) {
+                Toast.makeText(this, "Veuillez saisir la glycémie et la date", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-            // Convertir la date en timestamp pour un meilleur tri
-            val timestamp = System.currentTimeMillis()
+            // Utiliser le timestamp sélectionné ou l'instant courant
+            val timestamp = selectedTimestamp ?: System.currentTimeMillis()
             val donnee = DonneeMedicale(
                 patientId = userId,
                 dateHeure = timestamp.toString(),
                 glycemie = glycemie,
-                activite = activity,
-                commentaire = commentaire,
                 insuline = if (insuline.isEmpty()) null else insuline
             )
             addMesureViewModel.ajouterDonneeMedicale(donnee)
@@ -91,15 +88,17 @@ class AddMesureActivity : AppCompatActivity() {
     //fonction pour selection la date et l'heure
     fun selectdateHours(){
         binding.btnSelectDate.setOnClickListener {
+            val calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, year, month, dayOfMonth ->
-                    // Mettre à jour le TextView avec la date sélectionnée
+                    val cal = Calendar.getInstance()
+                    cal.set(year, month, dayOfMonth)
+                    selectedTimestamp = cal.timeInMillis
                     val dateStr = "$dayOfMonth/${month + 1}/$year"
                     binding.btnSelectDate.text = dateStr
-                    selectedDate = dateStr
                 },
-                2025, 7, 7//aout = 7
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
             )
             datePickerDialog.show()
         }

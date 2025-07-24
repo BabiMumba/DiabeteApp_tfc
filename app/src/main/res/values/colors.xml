@@ -3,8 +3,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="rouge">#FF0000</color>
     <color name="vert">#2FFF00</color>
-    <color name="Accent">#2241F6</color>
-    <color name="primary">#2241F6</color>
+    <color name="Accent">#f59e42</color>
+    <color name="primary">#f59e42</color>
     <color name="backgroud">#F7F7FA</color>
     <color name="card_background">#FFFFFF</color>
     <color name="primary_text">#000000</color>

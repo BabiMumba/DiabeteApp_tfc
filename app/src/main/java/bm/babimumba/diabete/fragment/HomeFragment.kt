@@ -106,6 +106,7 @@ class HomeFragment : Fragment() {
         pieChart.animateY(1000)
         
         // Calculer la répartition des valeurs
+
         var bas = 0
         var normale = 0
         var elevee = 0
@@ -125,7 +126,7 @@ class HomeFragment : Fragment() {
         if (elevee > 0) entries.add(PieEntry(elevee.toFloat(), "Élevé"))
         
         val dataSet = PieDataSet(entries, "Répartition glycémie")
-        dataSet.colors = listOf(Color.BLUE, Color.GREEN, Color.RED)
+        dataSet.colors = listOf(Color.rgb(255, 140, 0), Color.GREEN, Color.RED)
         dataSet.valueTextSize = 14f
         dataSet.valueTextColor = Color.WHITE
         
@@ -146,18 +147,29 @@ class HomeFragment : Fragment() {
         lineChart.setPinchZoom(true)
         lineChart.animateX(1000)
         
-        val entries = mesures.mapIndexed { index, mesure ->
+        // Série Glycémie
+        val entriesGlycemie = mesures.mapIndexed { index, mesure ->
             Entry(index.toFloat(), mesure.glycemie.toFloatOrNull() ?: 0f)
         }
-        
-        val dataSet = LineDataSet(entries, "Glycémie")
-        dataSet.color = Color.BLUE
-        dataSet.setCircleColor(Color.BLUE)
-        dataSet.lineWidth = 3f
-        dataSet.circleRadius = 5f
-        dataSet.valueTextSize = 12f
-        
-        val data = LineData(dataSet)
+        val dataSetGlycemie = LineDataSet(entriesGlycemie, "Glycémie")
+        dataSetGlycemie.color = Color.BLUE
+        dataSetGlycemie.setCircleColor(Color.BLUE)
+        dataSetGlycemie.lineWidth = 3f
+        dataSetGlycemie.circleRadius = 5f
+        dataSetGlycemie.valueTextSize = 12f
+
+        // Série Insuline
+        val entriesInsuline = mesures.mapIndexed { index, mesure ->
+            Entry(index.toFloat(), mesure.insuline?.toFloatOrNull() ?: 0f)
+        }
+        val dataSetInsuline = LineDataSet(entriesInsuline, "Insuline")
+        dataSetInsuline.color = Color.rgb(255, 140, 0) // Orange
+        dataSetInsuline.setCircleColor(Color.rgb(255, 140, 0))
+        dataSetInsuline.lineWidth = 3f
+        dataSetInsuline.circleRadius = 5f
+        dataSetInsuline.valueTextSize = 12f
+
+        val data = LineData(dataSetGlycemie, dataSetInsuline)
         lineChart.data = data
         lineChart.invalidate()
     }

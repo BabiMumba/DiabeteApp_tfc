@@ -8,10 +8,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import bm.babimumba.diabete.activity.RappelActivity
 import bm.babimumba.diabete.databinding.ActivityMainBinding
 import bm.babimumba.diabete.fragment.HistoriqueFragment
 import bm.babimumba.diabete.fragment.HomeFragment
 import bm.babimumba.diabete.fragment.MenuFragment
+import bm.babimumba.diabete.utils.VOID
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -43,6 +45,21 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding.menuBtn.setOnClickListener {
+            // Ouvrir le menu
+            if (binding.drawerLayout.isDrawerOpen(binding.navView)) {
+                binding.drawerLayout.closeDrawer(binding.navView)
+            } else {
+                binding.drawerLayout.openDrawer(binding.navView)
+            }
+        }
+
+        // Gestion des clics sur les éléments du menu
+        binding.navView.setNavigationItemSelectedListener { menuItem ->
+            onNavigationItemSelected(menuItem.itemId)
+            true
+        }
     }
 
     private fun loadFragment(fragment: Fragment) {
@@ -80,5 +97,20 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
+    }
+    //clic sur le navigation view
+    fun onNavigationItemSelected(itemId: Int) {
+        when (itemId) {
+            R.id.home_fragment -> {
+                loadFragment(HomeFragment())
+            }
+            R.id.history -> {
+                loadFragment(HistoriqueFragment())
+            }
+            R.id.rappel -> {
+                VOID.Intent1(this, RappelActivity::class.java)
+            }
+        }
+        binding.drawerLayout.closeDrawers() // Fermer le tiroir après la sélection
     }
 }
