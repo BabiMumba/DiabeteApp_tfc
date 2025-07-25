@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import bm.babimumba.diabete.R
+import bm.babimumba.diabete.activity.ExportDataActivity
 import bm.babimumba.diabete.activity.PartageQrActivity
 import bm.babimumba.diabete.activity.RappelActivity
 import bm.babimumba.diabete.databinding.FragmentMenuBinding
@@ -26,6 +27,9 @@ class MenuFragment : Fragment() {
         }
         binding.partageqr.setOnClickListener {
             VOID.Intent1(requireContext(), PartageQrActivity::class.java)
+        }
+        binding.exporterLyt.setOnClickListener {
+            VOID.Intent1(requireContext(), ExportDataActivity::class.java)
         }
         return binding.root
     }

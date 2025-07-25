@@ -3,6 +3,8 @@
     <string name="create_count">Vous n\'avez pas de compte ? <font color="#2241F6"> Créer un compte</font></string>
     <string name="havecounte">Vous avez déjà un compte ? <font color="#2241F6"> Se connecter</font></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_data">Fiche Médicale \n Application MedBloc</string>
+    <string name="logo_description">logo_application</string>
     <string-array name="nav_drawer_items">
         <item>Mesures</item>
         <item>Graphique</item>

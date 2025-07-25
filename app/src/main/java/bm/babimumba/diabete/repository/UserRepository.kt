@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import bm.babimumba.diabete.model.DonneeMedicale
 import android.util.Log
 import bm.babimumba.diabete.model.Rappel
+import bm.babimumba.diabete.model.MedecinAcces
 
 class UserRepository {
     fun registerPatient(
@@ -56,6 +57,33 @@ class UserRepository {
                         onError(exception?.localizedMessage ?: "Erreur d'inscription")
                     }
                 }
+            }
+    }
+
+
+    fun getPatient(
+        patientId: String,
+        onSuccess: (Patient) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("patients")
+            .document(patientId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    val patient = document.toObject(Patient::class.java)
+                    if (patient != null) {
+                        onSuccess(patient)
+                    } else {
+                        onError("Impossible de convertir les données du patient")
+                    }
+                } else {
+                    onError("Patient non trouvé")
+                }
+            }
+            .addOnFailureListener { e ->
+                onError(e.localizedMessage ?: "Erreur lors de la récupération du patient")
             }
     }
 
@@ -205,5 +233,36 @@ class UserRepository {
                 onSuccess(rappels)
             }
             .addOnFailureListener { e -> onError(e.localizedMessage ?: "Erreur lors de la récupération des rappels") }
+    }
+
+    fun getMedecinsAcces(
+        patientId: String,
+        onSuccess: (List<MedecinAcces>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("patients").document(patientId)
+            .collection("acces_medecins")
+            .get()
+            .addOnSuccessListener { result ->
+                val medecins = result.documents.mapNotNull { it.toObject(MedecinAcces::class.java) }
+                onSuccess(medecins)
+            }
+            .addOnFailureListener { e -> onError(e.localizedMessage ?: "Erreur lors de la récupération des médecins") }
+    }
+
+    fun revoquerAccesMedecin(
+        patientId: String,
+        medecinId: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("patients").document(patientId)
+            .collection("acces_medecins")
+            .document(medecinId)
+            .delete()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { e -> onError(e.localizedMessage ?: "Erreur lors de la révocation") }
     }
 } 

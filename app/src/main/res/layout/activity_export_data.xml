@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ExportDataActivity">
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@color/Accent" />
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:backgroundTint="@color/Accent"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/backgroud"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    app:tint="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_keyboard_backspace_24"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/btnBack" />
+
+                <TextView
+                    android:fontFamily="serif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exporter les données"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15ssp"
+                    android:id="@+id/titreTl" />
+            </RelativeLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_below="@id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/exportButtons"
+        android:padding="@dimen/_16sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Résumé patient -->
+
+          <LinearLayout
+              android:layout_marginTop="@dimen/_5sdp"
+              android:padding="@dimen/_5sdp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              >
+              <ImageView
+                  android:layout_width="@dimen/_50sdp"
+                  android:layout_height="@dimen/_50sdp"
+                  android:src="@drawable/logo"
+                    android:contentDescription="@string/logo_description"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_gravity="center_vertical"/>
+
+              <TextView
+                  android:id="@+id/tvTitreFiche"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/_10sdp"
+                  android:gravity="center"
+                  android:text="@string/title_data"
+                  android:textColor="@color/primary"
+                  android:textSize="@dimen/_16ssp"
+                  android:textStyle="bold" />
+          </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvResumePatient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nom du Patient : ...\nÂge : ...\nPoids : ...\nRésumé médical de la période : ...\nInsuline totale utilisée : ...\nMoyenne glycémie : ...\nGlycémie maximale : ...\nGlycémie minimale : ...\nNombre d'enregistrements : ...\nNombre de mesures de glycémie : ..."
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_13ssp"
+                android:layout_marginBottom="@dimen/_10sdp"/>
+
+            <!-- Tableau des mesures -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TableLayout
+                    android:id="@+id/tableMesures"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*"
+                    android:background="@color/white"
+                    android:elevation="2dp">
+                    <!-- En-tête -->
+                    <TableRow>
+                        <TextView android:text="Date" style="@style/TableHeaderCell"/>
+                        <TextView android:text="Heure" style="@style/TableHeaderCell"/>
+                        <TextView android:text="Nourriture" style="@style/TableHeaderCell"/>
+                        <TextView android:text="Glycémie (mmol/L)" style="@style/TableHeaderCell"/>
+                        <TextView android:text="Insuline (SAI)" style="@style/TableHeaderCell"/>
+                        <TextView android:text="Insuline (LAI)" style="@style/TableHeaderCell"/>
+                        <TextView android:text="Activité / Commentaire" style="@style/TableHeaderCell"/>
+                    </TableRow>
+                    <!-- Les lignes seront ajoutées dynamiquement -->
+                </TableLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Boutons d'export -->
+    <LinearLayout
+        android:id="@+id/exportButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExportPdf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Exporter en PDF"
+            android:icon="@drawable/baseline_picture_as_pdf_24"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/listExport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Mes Fiches"
+            android:backgroundTint="@color/Accent"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/_10sdp"/>
+    </LinearLayout>
+
+</RelativeLayout>

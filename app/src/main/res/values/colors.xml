@@ -25,6 +25,7 @@
     <color name="bleu">#0051FF</color>
     <color name="grise">#3CC5BCBC</color>
     <color name="red">#FF0000</color>
+    <color name="error">#FF0000</color>
     <color name="noir_trans">#85000000</color>
 
     <color name="blue_primary">#2196F3</color>

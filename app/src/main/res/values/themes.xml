@@ -19,4 +19,17 @@
 
 
     <style name="Theme.Diabete" parent="Base.Theme.Diabete" />
+    <style name="TableHeaderCell">
+        <item name="android:background">@color/Accent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TableCell">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">13sp</item>
+    </style>
 </resources>

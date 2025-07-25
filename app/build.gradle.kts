@@ -72,6 +72,14 @@ dependencies {
     // view model
     implementation("androidx.fragment:fragment-ktx:1.8.8")
 
-    //material
-    //implementation("com.google.android.material:material:1.12.0")
+    //zxing for QR code generation
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+    //iText 7
+    implementation ("com.itextpdf:itext7-core:7.2.5") // Vérifie la dernière version sur le site d'iText
+    implementation ("com.itextpdf:kernel:7.2.5")
+    implementation ("com.itextpdf:layout:7.2.5")
+    implementation ("com.itextpdf:io:7.2.5")
+    //lecteur de pdf
+    //implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
+    implementation ("com.github.DImuthuUpe:AndroidPdfViewer:2.8.1")
 }

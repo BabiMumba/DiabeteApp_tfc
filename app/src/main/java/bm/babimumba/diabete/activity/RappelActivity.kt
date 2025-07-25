@@ -31,7 +31,15 @@ class RappelActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding = ActivityRappelBinding.inflate(layoutInflater)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(0, 0, 0, insets.bottom)
+            //cela signifie que nous consommons les insets pour
+            WindowInsetsCompat.CONSUMED
+        }
         setContentView(binding.root)
         binding.btnBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed() // Retour à l'activité précédente
