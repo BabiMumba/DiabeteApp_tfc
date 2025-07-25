@@ -1,5 +1,7 @@
 package bm.babimumba.diabete.fragment
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +12,12 @@ import bm.babimumba.diabete.activity.ExportDataActivity
 import bm.babimumba.diabete.activity.MesPrescriptionsActivity
 import bm.babimumba.diabete.activity.PartageQrActivity
 import bm.babimumba.diabete.activity.RappelActivity
+import bm.babimumba.diabete.activity.SplashScreen
+import bm.babimumba.diabete.auth.LoginActivity
 import bm.babimumba.diabete.databinding.FragmentMenuBinding
 import bm.babimumba.diabete.utils.VOID
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class MenuFragment : Fragment() {
 
@@ -35,7 +41,23 @@ class MenuFragment : Fragment() {
         binding.prescriptions.setOnClickListener {
             VOID.Intent1(requireContext(), MesPrescriptionsActivity::class.java)
         }
+        binding.logout.setOnClickListener {
+            logout()
+        }
         return binding.root
+    }
+
+    fun logout(){
+        val auth = Firebase.auth
+        //dialog builder
+        val alerdialog = AlertDialog.Builder(requireContext())
+        alerdialog.setTitle("Déconnexion")
+        alerdialog.setMessage("Êtes-vous sûr de vouloir vous déconnecter ?")
+        alerdialog.setPositiveButton("Oui") { dialog, which ->
+            auth.signOut()
+            VOID.Intent1(requireContext(), SplashScreen::class.java)
+            requireActivity().finish()
+        }
     }
 
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home_medecin"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Patients" />
+    
+    <item
+        android:id="@+id/nav_historique_medecin"
+        android:icon="@drawable/baseline_edit_note_24"
+        android:title="Prescriptions" />
+    
+    <item
+        android:id="@+id/nav_profil_medecin"
+        android:icon="@drawable/baseline_person_24"
+        android:title="Profil" />
+</menu> 

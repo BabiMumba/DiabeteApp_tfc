@@ -11,7 +11,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import bm.babimumba.diabete.MainActivity
 import bm.babimumba.diabete.R
+import bm.babimumba.diabete.activity.MainActivityMedecin
 import bm.babimumba.diabete.databinding.ActivityLoginBinding
+import bm.babimumba.diabete.utils.RoleManager
 import kotlinx.coroutines.MainScope
 
 class LoginActivity : AppCompatActivity() {
@@ -56,12 +58,28 @@ class LoginActivity : AppCompatActivity() {
                                     binding.progressBar.visibility = android.view.View.GONE
                                     if (document.exists()) {
                                         val role = document.getString("role")
-                                        if (role == "patient") {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-                                            finish()
+                                        if (role != null) {
+                                            // Sauvegarder le rôle
+                                            RoleManager.saveUserRole(this, role, userId)
+                                            
+                                            // Rediriger selon le rôle
+                                            when (role) {
+                                                "patient" -> {
+                                                    val intent = Intent(this, MainActivity::class.java)
+                                                    startActivity(intent)
+                                                    finish()
+                                                }
+                                                "medecin" -> {
+                                                    val intent = Intent(this, MainActivityMedecin::class.java)
+                                                    startActivity(intent)
+                                                    finish()
+                                                }
+                                                else -> {
+                                                    Toast.makeText(this, "Rôle non reconnu.", Toast.LENGTH_LONG).show()
+                                                }
+                                            }
                                         } else {
-                                            Toast.makeText(this, "Ce compte n'est pas un compte patient.", Toast.LENGTH_LONG).show()
+                                            Toast.makeText(this, "Rôle non défini.", Toast.LENGTH_LONG).show()
                                         }
                                     } else {
                                         Toast.makeText(this, "Profil utilisateur introuvable.", Toast.LENGTH_LONG).show()

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/vv"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/Accent" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_below="@id/vv"
+        android:backgroundTint="@color/Accent"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/backgroud"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                app:civ_border_width="@dimen/_3sdp"
+                app:civ_border_color="@color/white"
+                android:src="@drawable/doctor_ill"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/imv_profil_user"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="serif"
+                android:gravity="center_horizontal"
+                android:text="Mes patients"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/_15ssp"
+                android:id="@+id/titre_fr"
+                />
+
+        </RelativeLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+    <FrameLayout
+        android:layout_below="@id/toolbar"
+        android:id="@+id/fragment_container_medecin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        app:itemIconTint="@color/primary"
+        app:itemTextColor="@color/primary"
+        app:menu="@menu/nav_bottom_medecin" />
+
+</RelativeLayout> 

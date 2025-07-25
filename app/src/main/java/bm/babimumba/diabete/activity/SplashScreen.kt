@@ -12,6 +12,7 @@ import bm.babimumba.diabete.MainActivity
 import bm.babimumba.diabete.R
 import bm.babimumba.diabete.auth.LoginActivity
 import bm.babimumba.diabete.databinding.ActivitySplashScreenBinding
+import bm.babimumba.diabete.utils.RoleManager
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashScreen : AppCompatActivity() {
@@ -36,10 +37,33 @@ class SplashScreen : AppCompatActivity() {
         //verifier si l'utilisateur est connecté
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
-            // User is signed in
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            // User is signed in, check role
+            val userRole = RoleManager.getUserRole(this)
+            if (userRole != null) {
+                when (userRole) {
+                    "medecin" -> {
+                        val intent = Intent(this, MainActivityMedecin::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    "patient" -> {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    else -> {
+                        // Role non reconnu, rediriger vers login
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            } else {
+                // Pas de rôle sauvegardé, rediriger vers login
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         } else {
             // User is not signed in, redirect to LoginActivity
             val intent = Intent(this, LoginActivity::class.java)

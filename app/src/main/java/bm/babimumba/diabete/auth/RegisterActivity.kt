@@ -13,11 +13,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import bm.babimumba.diabete.MainActivity
 import bm.babimumba.diabete.R
+import bm.babimumba.diabete.activity.MainActivityMedecin
 import bm.babimumba.diabete.databinding.ActivityRegisterBinding
 import bm.babimumba.diabete.model.Patient
 import bm.babimumba.diabete.utils.Constant
 import bm.babimumba.diabete.utils.Constant.PREF_KEY_USER_NAME
 import bm.babimumba.diabete.utils.Constant.PREF_NAME
+import bm.babimumba.diabete.utils.RoleManager
 import bm.babimumba.diabete.utils.VOID
 import bm.babimumba.diabete.viewmodel.RegisterViewModel
 import bm.babimumba.diabete.viewmodel.RegisterState
@@ -56,7 +58,16 @@ class RegisterActivity : AppCompatActivity() {
                 is RegisterState.Success -> {
                     binding.progressBar.visibility = android.view.View.GONE
                     VOID.showSnackBar(binding.root, "Inscription réussie")
-                    VOID.Intent1(this, MainActivity::class.java)
+                    
+                    // Sauvegarder le rôle et rediriger selon le rôle
+                    val selectedRole = if (binding.radioGroupRole.checkedRadioButtonId == R.id.radioMedecin) "medecin" else "patient"
+                    RoleManager.saveUserRole(this, selectedRole, FirebaseAuth.getInstance().currentUser?.uid ?: "")
+                    
+                    if (selectedRole == "medecin") {
+                        VOID.Intent1(this, MainActivityMedecin::class.java)
+                    } else {
+                        VOID.Intent1(this, MainActivity::class.java)
+                    }
                     finish()
                 }
                 is RegisterState.Error -> {
@@ -177,7 +188,16 @@ class RegisterActivity : AppCompatActivity() {
         editor.apply()
         VOID.showSnackBar(binding.root, "Inscription réussie")
         VOID.loading(false,binding.progressBar,binding.btnSave.btnModelUi)
-        VOID.Intent1(this, MainActivity::class.java)
+        
+        // Sauvegarder le rôle et rediriger selon le rôle
+        val selectedRole = if (binding.radioGroupRole.checkedRadioButtonId == R.id.radioMedecin) "medecin" else "patient"
+        RoleManager.saveUserRole(this, selectedRole, FirebaseAuth.getInstance().currentUser?.uid ?: "")
+        
+        if (selectedRole == "medecin") {
+            VOID.Intent1(this, MainActivityMedecin::class.java)
+        } else {
+            VOID.Intent1(this, MainActivity::class.java)
+        }
     }
     private fun StoreDataFistore(){
         val AUTH = FirebaseAuth.getInstance()

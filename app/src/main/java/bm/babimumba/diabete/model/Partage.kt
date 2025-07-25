@@ -5,5 +5,6 @@ data class Partage(
     val patientId: String = "",
     val medecinId: String = "",
     val dateHeurePartage: String = "",
+
     val statut: String = "actif"
 )

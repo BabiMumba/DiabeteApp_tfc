@@ -29,6 +29,12 @@
             android:name=".activity.MesPrescriptionsActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.MainActivityMedecin"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ScannerQrActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.PdfViewerActivity"
             android:exported="false" />
         <activity
