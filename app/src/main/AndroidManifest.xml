@@ -23,6 +23,12 @@
             android:name=".activity.ListExportActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.CreerPrescriptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MesPrescriptionsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.PdfViewerActivity"
             android:exported="false" />
         <activity

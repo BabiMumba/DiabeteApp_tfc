@@ -198,6 +198,44 @@
 
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/prescriptions"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_alignParentStart="true"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:src="@drawable/baseline_edit_note_24"
+                        android:id="@+id/ic_prescriptions"
+                        app:tint="@color/Accent"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mes Prescriptions"
+                        android:textSize="18sp"
+                        android:layout_toEndOf="@id/ic_prescriptions"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_text"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/baseline_chevron_right_24"
+                        app:tint="@color/primary_text"
+                        android:contentDescription="Arrow Icon"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_centerVertical="true"
+                        />
+
+                </RelativeLayout>
+                <RelativeLayout
                     android:layout_margin="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -232,10 +270,6 @@
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         />
-
-
-
-
 
                 </RelativeLayout>
 

@@ -1,7 +1,7 @@
 package bm.babimumba.diabete.model
 
 data class Patient(
-    val id: String = "",
+    var id: String = "",
     val name: String = "", // harmonisé avec le repository
     val postnom: String = "",
     val sexe: String = "",

@@ -59,7 +59,6 @@ class ExportDataActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.setPadding(0, 0, 0, insets.bottom)
-            //cela signifie que nous consommons les insets pour
             WindowInsetsCompat.CONSUMED
         }
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import bm.babimumba.diabete.R
 import bm.babimumba.diabete.activity.ExportDataActivity
+import bm.babimumba.diabete.activity.MesPrescriptionsActivity
 import bm.babimumba.diabete.activity.PartageQrActivity
 import bm.babimumba.diabete.activity.RappelActivity
 import bm.babimumba.diabete.databinding.FragmentMenuBinding
@@ -30,6 +31,9 @@ class MenuFragment : Fragment() {
         }
         binding.exporterLyt.setOnClickListener {
             VOID.Intent1(requireContext(), ExportDataActivity::class.java)
+        }
+        binding.prescriptions.setOnClickListener {
+            VOID.Intent1(requireContext(), MesPrescriptionsActivity::class.java)
         }
         return binding.root
     }
