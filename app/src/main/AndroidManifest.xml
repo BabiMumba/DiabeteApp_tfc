@@ -67,10 +67,16 @@
             android:name=".activity.AddMesureActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.AddMesureMedecinActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".auth.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.IntegrityCheckActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SplashScreen"

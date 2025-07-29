@@ -31,7 +31,8 @@ class PdfViewerActivity : AppCompatActivity() {
         if (filePath != null) {
             val file = File(filePath)
             val uri: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
-            binding.titreTl.text = file.nameWithoutExtension
+            //le nom sera le 15 premiers caractères du nom du fichier
+            binding.titreTl.text = file.name.take(15) + "..."
             binding.pdfView.fromUri(uri)
                 .enableSwipe(true)
                 .swipeHorizontal(false)

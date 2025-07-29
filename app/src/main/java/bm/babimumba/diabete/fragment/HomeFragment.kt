@@ -1,5 +1,6 @@
 package bm.babimumba.diabete.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import android.graphics.Color
+import bm.babimumba.diabete.activity.AddMesureActivity
 
 
 class HomeFragment : Fragment() {
@@ -39,17 +41,23 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        
+
+        binding.btnAdd.setOnClickListener {
+            val intent = Intent(requireContext(), AddMesureActivity::class.java)
+            startActivity(intent)
+        }
         // Observer l'état du Home
         homeViewModel.homeState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is HomeState.Loading -> {
-                    // TODO: afficher un loader si besoin
+                    binding.circularLoader.root.visibility = View.VISIBLE
                 }
                 is HomeState.Success -> {
+                    binding.circularLoader.root.visibility = View.GONE
                     afficherDerniereMesure(state.derniereMesure)
                 }
                 is HomeState.Error -> {
+                    binding.circularLoader.root.visibility = View.GONE
                     Log.d("HomeFragment", "Erreur lors du chargement de la dernière mesure : ${state.message}")
                 }
             }
@@ -79,6 +87,16 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Rafraîchir les données quand le fragment redevient visible
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            homeViewModel.chargerDerniereMesure(userId)
+            homeViewModel.chargerTendances(userId)
+        }
     }
 
     private fun afficherDerniereMesure(mesure: DonneeMedicale?) {

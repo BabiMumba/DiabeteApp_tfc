@@ -56,6 +56,7 @@ class HomeDoc : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = patientAdapter
         }
+
     }
 
     private fun loadPatients() {
@@ -89,7 +90,6 @@ class HomeDoc : Fragment() {
     private fun loadPatientDetails(patientIds: List<String>) {
         var loadedCount = 0
         patients.clear()
-
         for (patientId in patientIds) {
             db.collection(Constant.USER_COLLECTION).document(patientId).get()
                 .addOnSuccessListener { document ->

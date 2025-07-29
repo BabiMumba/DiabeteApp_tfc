@@ -9,6 +9,7 @@ import android.util.Log
 import bm.babimumba.diabete.model.Rappel
 import bm.babimumba.diabete.model.MedecinAcces
 import bm.babimumba.diabete.utils.Constant
+import bm.babimumba.diabete.utils.IntegrityManager
 
 class UserRepository {
     fun registerPatient(
@@ -96,22 +97,41 @@ class UserRepository {
         val db = FirebaseFirestore.getInstance()
         val docRef = db.collection("donnees_medicales").document()
         val donneeAvecId = donnee.copy(id = docRef.id)
-        docRef.set(donneeAvecId)
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { e -> onError(e.localizedMessage ?: "Erreur lors de l'ajout de la donnée médicale") }
+        
+        // Traitement avec intégrité blockchain
+        val integrityManager = IntegrityManager()
+        integrityManager.processMedicalData(
+            donnee = donneeAvecId,
+            onSuccess = { donneeWithIntegrity ->
+                // Sauvegarder la donnée avec intégrité
+                docRef.set(donneeWithIntegrity)
+                    .addOnSuccessListener { onSuccess() }
+                    .addOnFailureListener { e -> 
+                        onError(e.localizedMessage ?: "Erreur lors de l'ajout de la donnée médicale") 
+                    }
+            },
+            onError = { error ->
+                onError("Erreur d'intégrité: $error")
+            }
+        )
     }
 
     fun getDonneesMedicalesPatient(
         patientId: String,
-        onSuccess: (List<bm.babimumba.diabete.model.DonneeMedicale>) -> Unit,
+        onSuccess: (List<DonneeMedicale>) -> Unit,
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
         db.collection("donnees_medicales")
             .whereEqualTo("patientId", patientId)
-            .get()
+            .orderBy("dateHeure", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .get(com.google.firebase.firestore.Source.SERVER) // Forcer le serveur
             .addOnSuccessListener { result ->
                 val list = result.documents.mapNotNull { it.toObject(bm.babimumba.diabete.model.DonneeMedicale::class.java) }
+                Log.d("UserRepository", "Historique - Mesures récupérées: ${list.size}")
+                list.forEachIndexed { index, mesure ->
+                    Log.d("UserRepository", "Historique[$index]: date=${mesure.dateHeure}, source=${mesure.source}, glycemie=${mesure.glycemie}")
+                }
                 onSuccess(list)
             }
             .addOnFailureListener { e ->
@@ -121,7 +141,7 @@ class UserRepository {
 
     fun getDerniereDonneeMedicale(
         patientId: String,
-        onSuccess: (bm.babimumba.diabete.model.DonneeMedicale?) -> Unit,
+        onSuccess: (DonneeMedicale?) -> Unit,
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
@@ -129,11 +149,12 @@ class UserRepository {
             .whereEqualTo("patientId", patientId)
             .orderBy("dateHeure", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .limit(1)
-            .get()
+            .get(com.google.firebase.firestore.Source.SERVER) // Forcer le serveur
             .addOnSuccessListener { result ->
                 val derniereMesure = if (result.documents.isNotEmpty()) {
                     result.documents.first().toObject(DonneeMedicale::class.java)
                 } else null
+                Log.d("UserRepository", "Dernière mesure: ${derniereMesure?.glycemie}, source=${derniereMesure?.source}, date=${derniereMesure?.dateHeure}")
                 onSuccess(derniereMesure)
             }
             .addOnFailureListener { e ->
@@ -143,7 +164,7 @@ class UserRepository {
 
     fun getDonneesTendances(
         patientId: String,
-        onSuccess: (List<bm.babimumba.diabete.model.DonneeMedicale>) -> Unit,
+        onSuccess: (List<DonneeMedicale>) -> Unit,
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
@@ -153,7 +174,7 @@ class UserRepository {
             .get()
             .addOnSuccessListener { result ->
                 val mesures = result.documents.mapNotNull {
-                    it.toObject(bm.babimumba.diabete.model.DonneeMedicale::class.java)
+                    it.toObject(DonneeMedicale::class.java)
                 }
                 Log.d("UserRepository", "Mesures récupérées: ${mesures.size}")
                 // Filtrer les 7 derniers jours côté client

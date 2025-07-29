@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import bm.babimumba.diabete.R
 import bm.babimumba.diabete.activity.DemandesAccesActivity
 import bm.babimumba.diabete.activity.ExportDataActivity
+import bm.babimumba.diabete.activity.IntegrityCheckActivity
 import bm.babimumba.diabete.activity.MesPrescriptionsActivity
 import bm.babimumba.diabete.activity.PartageQrActivity
 import bm.babimumba.diabete.activity.RappelActivity
@@ -45,6 +46,12 @@ class MenuFragment : Fragment() {
         binding.prescriptions.setOnClickListener {
             VOID.Intent1(requireContext(), MesPrescriptionsActivity::class.java)
         }
+        binding.settingLyt.setOnClickListener {
+
+        }
+        binding.integrityCheck.setOnClickListener {
+            VOID.Intent1(requireContext(), IntegrityCheckActivity::class.java)
+        }
         binding.logout.setOnClickListener {
             logout()
         }
@@ -53,7 +60,6 @@ class MenuFragment : Fragment() {
 
     fun logout(){
         val auth = Firebase.auth
-        //dialog builder
         val alerdialog = AlertDialog.Builder(requireContext())
         alerdialog.setTitle("Déconnexion")
         alerdialog.setMessage("Êtes-vous sûr de vouloir vous déconnecter ?")
@@ -62,6 +68,11 @@ class MenuFragment : Fragment() {
             VOID.Intent1(requireContext(), SplashScreen::class.java)
             requireActivity().finish()
         }
+        alerdialog.setNegativeButton("Non") { dialog, which ->
+            dialog.dismiss()
+        }
+        alerdialog.show()
     }
+
 
 }

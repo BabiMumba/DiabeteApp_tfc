@@ -1,11 +1,14 @@
 package bm.babimumba.diabete.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import bm.babimumba.diabete.adapter.DonneeMedicaleAdapter
 import bm.babimumba.diabete.databinding.ActivityPatientDetailBinding
@@ -32,6 +35,19 @@ class PatientDetailActivity : AppCompatActivity() {
         setupToolbar()
         setupRecyclerView()
         loadPatientData()
+
+        // FAB pour ajouter des mesures
+        binding.fabAddMesure.setOnClickListener {
+            val intent = Intent(this, AddMesureMedecinActivity::class.java)
+            startActivity(intent)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(0, 0, 0, insets.bottom)
+            //cela signifie que nous consommons les insets pour
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun setupToolbar() {
@@ -41,7 +57,12 @@ class PatientDetailActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = DonneeMedicaleAdapter(donneesMedicales)
+        adapter = DonneeMedicaleAdapter(donneesMedicales) { donnee ->
+            // Action lors du clic sur une donnée (navigation vers le détail)
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("donnee_id", donnee.id)
+            startActivity(intent)
+        }
         binding.recyclerViewDonnees.apply {
             layoutManager = LinearLayoutManager(this@PatientDetailActivity)
             adapter = this@PatientDetailActivity.adapter

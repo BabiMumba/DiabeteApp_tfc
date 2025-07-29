@@ -33,6 +33,7 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
+        <!-- FAB pour scanner QR -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabScanner"
             android:layout_width="wrap_content"
@@ -42,6 +43,8 @@
             android:src="@drawable/baseline_qr_code_scanner_24"
             app:backgroundTint="@color/Accent"
             app:tint="@color/white" />
+
+
 
     </FrameLayout>
 

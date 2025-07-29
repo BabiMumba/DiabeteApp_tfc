@@ -10,7 +10,7 @@
         android:layout_width="@dimen/_70sdp"
         android:layout_height="@dimen/_70sdp"
         android:layout_centerInParent="true"
-        android:src="@drawable/profil_women"
+        android:src="@drawable/user_avantar"
         app:civ_border_color="@color/white"
         app:civ_border_width="@dimen/_2sdp" />
     <TextView

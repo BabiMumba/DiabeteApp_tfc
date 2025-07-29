@@ -9,12 +9,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DonneeMedicaleAdapter(
-    private var donnees: List<DonneeMedicale>
+    private var donnees: List<DonneeMedicale>,
+    private val onItemClick: ((DonneeMedicale) -> Unit)? = null
 ) : RecyclerView.Adapter<DonneeMedicaleAdapter.DonneeViewHolder>() {
 
     inner class DonneeViewHolder(private val binding: ItemDonneeMedicaleBinding) : RecyclerView.ViewHolder(binding.root) {
         
         fun bind(donnee: DonneeMedicale) {
+            // Ajouter le clic sur l'élément
+            itemView.setOnClickListener {
+                onItemClick?.invoke(donnee)
+            }
             // Formater la date
             val date = try {
                 val timestamp = donnee.dateHeure.toLongOrNull()

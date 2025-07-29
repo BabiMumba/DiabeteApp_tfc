@@ -39,6 +39,7 @@ class MainActivityMedecin : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home_medecin -> {
+                    binding.titreFr.text = "Mes Patients"
                     loadFragment(HomeMedecinFragment())
                     true
                 }
