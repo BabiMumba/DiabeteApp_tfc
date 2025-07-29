@@ -1,174 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/backgroud"
     tools:context=".fragment.HomeFragment">
-    <LinearLayout
+
+    <include
+        layout="@layout/layout_circular_loader"
+        android:id="@+id/circular_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="@dimen/_10sdp"
-        android:spacing="16dp">
-
-        <!-- Carte Dernière Mesure -->
-        <com.google.android.material.card.MaterialCardView
+        >
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_15sdp"
-            app:cardElevation="@dimen/_5sdp"
-            android:elevation="@dimen/_12sdp"
-            app:cardBackgroundColor="@color/backgroud"
-            app:cardCornerRadius="@dimen/_12sdp">
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/_10sdp"
+            android:spacing="16dp">
 
-            <LinearLayout
+            <!-- Carte Dernière Mesure -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_marginBottom="@dimen/_15sdp"
+                app:cardElevation="@dimen/_5sdp"
+                android:elevation="@dimen/_12sdp"
+                app:cardBackgroundColor="@color/backgroud"
+                app:cardCornerRadius="@dimen/_12sdp">
 
-                <TextView
-                    android:text="Dernière mesure"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:text=""
-                    android:textSize="36sp"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:id="@+id/tvDerniereGlycemie"
-                    />
-
-                <TextView
-                    android:text=""
-                    android:textColor="#888"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/tvDerniereDetails"
-                    />
-
-                <TextView
-                    android:text=""
-                    android:textColor="#888"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:id="@+id/tvDerniereDate"
-                    />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Carte Graphique à secteurs -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_15sdp"
-            app:cardElevation="@dimen/_5sdp"
-            android:elevation="@dimen/_12sdp"
-            app:cardBackgroundColor="@color/backgroud"
-            app:cardCornerRadius="@dimen/_12sdp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:text="Graphique à secteurs - Derniers 7 jours"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <!-- PieChart pour la répartition -->
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pieChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="16dp"/>
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Carte Graphique historique -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_15sdp"
-            app:cardElevation="@dimen/_5sdp"
-            android:elevation="@dimen/_12sdp"
-            app:cardBackgroundColor="@color/backgroud"
-            app:cardCornerRadius="@dimen/_12sdp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:text="Graphique historique - Derniers 7 jours"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <!-- En-tête min avg max -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_horizontal">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        android:id="@+id/tvMin"
-                        android:text="Min: -" />
+                        android:text="Dernière mesure"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
                     <TextView
-                        android:layout_weight="1"
+                        android:text=""
+                        android:textSize="36sp"
+                        android:textColor="#000"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        android:id="@+id/tvAvg"
-                        android:text="Avg: -"
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/tvDerniereGlycemie"
                         />
+
                     <TextView
-                        android:layout_weight="1"
+                        android:text=""
+                        android:textColor="#888"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        android:id="@+id/tvMax"
-                        android:text="Max: -" />
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/tvDerniereDetails"
+                        />
+
+                    <TextView
+                        android:text=""
+                        android:textColor="#888"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:id="@+id/tvDerniereDate"
+                        />
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <!-- LineChart pour l'évolution -->
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lineChart"
+            <!-- Carte Graphique à secteurs -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_15sdp"
+                app:cardElevation="@dimen/_5sdp"
+                android:elevation="@dimen/_12sdp"
+                app:cardBackgroundColor="@color/backgroud"
+                app:cardCornerRadius="@dimen/_12sdp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="16dp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-    </LinearLayout>
+                    <TextView
+                        android:text="Graphique à secteurs - Derniers 7 jours"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <!-- PieChart pour la répartition -->
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pieChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="16dp"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Carte Graphique historique -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_15sdp"
+                app:cardElevation="@dimen/_5sdp"
+                android:elevation="@dimen/_12sdp"
+                app:cardBackgroundColor="@color/backgroud"
+                app:cardCornerRadius="@dimen/_12sdp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:text="Graphique historique - Derniers 7 jours"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <!-- En-tête min avg max -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:id="@+id/tvMin"
+                            android:text="Min: -" />
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:id="@+id/tvAvg"
+                            android:text="Avg: -"
+                            />
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:id="@+id/tvMax"
+                            android:text="Max: -" />
+                    </LinearLayout>
+
+                    <!-- LineChart pour l'évolution -->
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="16dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/_16sdp"
+        android:src="@drawable/baseline_add_24"
+        app:tint="@color/white"
+        android:contentDescription="Ajouter une mesure"
+        android:backgroundTint="@color/Accent"
+        android:id="@+id/btnAdd"
+        />
 
 
-</androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

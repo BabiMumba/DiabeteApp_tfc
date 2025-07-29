@@ -45,7 +45,7 @@
                     android:layout_height="@dimen/_40sdp"
                     app:civ_border_width="@dimen/_3sdp"
                     app:civ_border_color="@color/white"
-                    android:src="@drawable/profil_women"
+                    android:src="@drawable/user_avantar"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="10dp"

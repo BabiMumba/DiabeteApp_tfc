@@ -1,6 +1,7 @@
 package bm.babimumba.diabete
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,8 @@ import bm.babimumba.diabete.databinding.ActivityMainBinding
 import bm.babimumba.diabete.fragment.HistoriqueFragment
 import bm.babimumba.diabete.fragment.HomeFragment
 import bm.babimumba.diabete.fragment.MenuFragment
+import bm.babimumba.diabete.utils.Constant.PREF_KEY_USER_NAME
+import bm.babimumba.diabete.utils.Constant.PREF_NAME
 import bm.babimumba.diabete.utils.VOID
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         }*/
 
         loadFragment(HomeFragment())
+        loadname()
         inifragment()
         binding.bottomNavigationView.selectedItemId = R.id.home_fragment
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -60,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             onNavigationItemSelected(menuItem.itemId)
             true
         }
+
     }
 
     private fun loadFragment(fragment: Fragment) {
@@ -112,5 +117,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.drawerLayout.closeDrawers() // Fermer le tiroir après la sélection
+    }
+
+    fun  loadname(){
+        val sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE)
+        val userName = sharedPreferences.getString(PREF_KEY_USER_NAME, "")
+        binding.tvName.text = userName ?: ""
+        binding.navView.getHeaderView(0).findViewById<TextView>(R.id.name_user).text = userName ?: ""
     }
 }

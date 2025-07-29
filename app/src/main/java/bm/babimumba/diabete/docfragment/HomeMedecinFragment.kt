@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import bm.babimumba.diabete.activity.AddMesureMedecinActivity
 import bm.babimumba.diabete.activity.CreerPrescriptionActivity
 import bm.babimumba.diabete.activity.DetailActivity
 import bm.babimumba.diabete.activity.PatientDetailActivity
@@ -37,7 +38,7 @@ class HomeMedecinFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        setupFab()
+        setupFabs()
         loadPatients()
     }
 
@@ -62,9 +63,16 @@ class HomeMedecinFragment : Fragment() {
         }
     }
 
-    private fun setupFab() {
+    private fun setupFabs() {
+        // FAB pour scanner QR
         binding.fabScanner.setOnClickListener {
             val intent = Intent(requireContext(), ScannerQrActivity::class.java)
+            startActivity(intent)
+        }
+
+        // FAB pour ajouter des mesures
+        binding.fabAddMesure.setOnClickListener {
+            val intent = Intent(requireContext(), AddMesureMedecinActivity::class.java)
             startActivity(intent)
         }
     }

@@ -2,6 +2,7 @@ package bm.babimumba.diabete.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,9 +37,9 @@ class MesPrescriptionsActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         prescriptionAdapter = PrescriptionAdapter(prescriptions) { prescription ->
             // Ouvrir le détail de la prescription
-            /*val intent = Intent(this, DetailPrescriptionActivity::class.java)
+            val intent = Intent(this, DetailPrescriptionActivity::class.java)
             intent.putExtra("prescription_id", prescription.id)
-            startActivity(intent)*/
+            startActivity(intent)
         }
         
         binding.recyclerViewPrescriptions.apply {
@@ -81,6 +82,7 @@ class MesPrescriptionsActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     binding.tvAucunePrescription.visibility = View.VISIBLE
                     binding.tvAucunePrescription.text = "Erreur: ${e.message}"
+                    Log.e("MesPrescriptionsActivity", "Error loading", e)
                 }
         }
     }

@@ -31,7 +31,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:src="@drawable/profil_women"
+                    android:src="@drawable/user_avantar"
                     android:id="@+id/img_profil"
                     />
                 <TextView

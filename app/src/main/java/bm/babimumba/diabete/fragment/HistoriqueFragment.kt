@@ -35,10 +35,7 @@ class HistoriqueFragment : Fragment() {
     ): View? {
         binding = FragmentHistoriqueBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        binding.btnAdd.setOnClickListener {
-            val intent = Intent(requireContext(), AddMesureActivity::class.java)
-            startActivity(intent)
-        }
+
 
         // Initialisation de l'adapter et du RecyclerView
         adapter = DonneeMedicaleAdapter(emptyList())

@@ -4,44 +4,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroud">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
 
     <!-- Toolbar -->
-    <LinearLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/Accent" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:backgroundTint="@color/Accent"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary"
-        android:orientation="horizontal"
-        android:padding="@dimen/_16sdp"
-        android:gravity="center_vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/backgroud"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/baseline_keyboard_backspace_24"
-            android:contentDescription="Retour"
-            app:tint="@color/white" />
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                app:tint="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_keyboard_backspace_24"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:id="@+id/btnBack"
+                />
+            <TextView
+                android:fontFamily="serif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Détails du Patient"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp"
+                android:id="@+id/titreTl"
+                />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Détails du Patient"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:gravity="center_vertical" />
 
-    </LinearLayout>
+        </RelativeLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+
 
     <!-- ScrollView pour le contenu -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
         android:fillViewport="true">
 
         <LinearLayout
@@ -265,4 +284,5 @@
 
     </ScrollView>
 
+</LinearLayout>
 </RelativeLayout> 

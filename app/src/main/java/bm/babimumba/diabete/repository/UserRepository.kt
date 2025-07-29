@@ -109,9 +109,14 @@ class UserRepository {
         val db = FirebaseFirestore.getInstance()
         db.collection("donnees_medicales")
             .whereEqualTo("patientId", patientId)
-            .get()
+            .orderBy("dateHeure", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .get(com.google.firebase.firestore.Source.SERVER) // Forcer le serveur
             .addOnSuccessListener { result ->
                 val list = result.documents.mapNotNull { it.toObject(bm.babimumba.diabete.model.DonneeMedicale::class.java) }
+                Log.d("UserRepository", "Historique - Mesures récupérées: ${list.size}")
+                list.forEachIndexed { index, mesure ->
+                    Log.d("UserRepository", "Historique[$index]: date=${mesure.dateHeure}, source=${mesure.source}, glycemie=${mesure.glycemie}")
+                }
                 onSuccess(list)
             }
             .addOnFailureListener { e ->
@@ -129,11 +134,12 @@ class UserRepository {
             .whereEqualTo("patientId", patientId)
             .orderBy("dateHeure", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .limit(1)
-            .get()
+            .get(com.google.firebase.firestore.Source.SERVER) // Forcer le serveur
             .addOnSuccessListener { result ->
                 val derniereMesure = if (result.documents.isNotEmpty()) {
                     result.documents.first().toObject(DonneeMedicale::class.java)
                 } else null
+                Log.d("UserRepository", "Dernière mesure: ${derniereMesure?.glycemie}, source=${derniereMesure?.source}, date=${derniereMesure?.dateHeure}")
                 onSuccess(derniereMesure)
             }
             .addOnFailureListener { e ->
