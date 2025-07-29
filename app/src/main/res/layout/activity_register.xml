@@ -135,10 +135,7 @@
                         android:id="@+id/spinner_sexe"
                         android:popupBackground="@color/white"
                         android:entries="@array/genre"
-
                         />
-
-
 
                 </LinearLayout>
 
@@ -159,33 +156,6 @@
                     app:cornerRadius="@dimen/_5sdp"
                      />
 
-                <!-- Ajout du choix du rôle -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Je suis :"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/_13ssp"/>
-                <RadioGroup
-                    android:id="@+id/radioGroupRole"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
-                    <RadioButton
-                        android:id="@+id/radioPatient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Patient"
-                        android:checked="true"/>
-                    <RadioButton
-                        android:id="@+id/radioMedecin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Médecin"/>
-                </RadioGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

@@ -13,6 +13,7 @@ import bm.babimumba.diabete.MainActivity
 import bm.babimumba.diabete.R
 import bm.babimumba.diabete.activity.MainActivityMedecin
 import bm.babimumba.diabete.databinding.ActivityLoginBinding
+import bm.babimumba.diabete.utils.Constant
 import bm.babimumba.diabete.utils.RoleManager
 import kotlinx.coroutines.MainScope
 
@@ -23,10 +24,11 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(0, 0, 0, insets.bottom)
+            WindowInsetsCompat.CONSUMED
         }
 
         binding.btnSave.btnModelUi.text = "Se connecter"
@@ -51,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
                         val userId = auth.currentUser?.uid
                         if (userId != null) {
                             val db = FirebaseFirestore.getInstance()
-                            db.collection("patients")
+                            db.collection(Constant.USER_COLLECTION)
                                 .document(userId)
                                 .get()
                                 .addOnSuccessListener { document ->
@@ -101,6 +103,10 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.textRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+        binding.registerMedecin.setOnClickListener {
+            val intent = Intent(this, RegisterMedecinActivity::class.java)
             startActivity(intent)
         }
     }

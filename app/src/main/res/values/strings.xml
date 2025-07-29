@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Diabete</string>
     <string name="create_count">Vous n\'avez pas de compte ? <font color="#2241F6"> Créer un compte</font></string>
+    <string name="create_countmedecin"> <font color="#2241F6"> Créer un compte Medecin</font></string>
     <string name="havecounte">Vous avez déjà un compte ? <font color="#2241F6"> Se connecter</font></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_data">Fiche Médicale \n Application MedBloc</string>
@@ -29,6 +30,30 @@
         <item>Vélo</item>
         <item>Musculation</item>
         <item>Yoga</item>
+        <item>Autre</item>
+    </string-array>
+
+    <string-array name="specialites_medecin">
+        <item>Endocrinologie</item>
+        <item>Diabétologie</item>
+        <item>Médecine générale</item>
+        <item>Cardiologie</item>
+        <item>Néphrologie</item>
+        <item>Ophtalmologie</item>
+        <item>Neurologie</item>
+        <item>Dermatologie</item>
+        <item>Gastro-entérologie</item>
+        <item>Pneumologie</item>
+        <item>Rhumatologie</item>
+        <item>Hématologie</item>
+        <item>Oncologie</item>
+        <item>Gériatrie</item>
+        <item>Pédiatrie</item>
+        <item>Gynécologie</item>
+        <item>Chirurgie générale</item>
+        <item>Chirurgie cardiovasculaire</item>
+        <item>Orthopédie</item>
+        <item>Urologie</item>
         <item>Autre</item>
     </string-array>
 </resources>

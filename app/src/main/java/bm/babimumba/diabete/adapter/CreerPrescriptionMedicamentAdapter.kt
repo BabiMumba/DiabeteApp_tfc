@@ -3,17 +3,18 @@ package bm.babimumba.diabete.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import bm.babimumba.diabete.databinding.ItemMedicamentBinding
+import bm.babimumba.diabete.databinding.ItemMedicamentCreerBinding
 import bm.babimumba.diabete.model.Medicament
 
-class MedicamentAdapter(
-    private val medicaments: List<Medicament>
-) : RecyclerView.Adapter<MedicamentAdapter.MedicamentViewHolder>() {
+class CreerPrescriptionMedicamentAdapter(
+    private val medicaments: MutableList<Medicament>,
+    private val onDeleteClick: (Int) -> Unit
+) : RecyclerView.Adapter<CreerPrescriptionMedicamentAdapter.MedicamentViewHolder>() {
 
-    inner class MedicamentViewHolder(val binding: ItemMedicamentBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class MedicamentViewHolder(val binding: ItemMedicamentCreerBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicamentViewHolder {
-        val binding = ItemMedicamentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMedicamentCreerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MedicamentViewHolder(binding)
     }
 
@@ -31,6 +32,10 @@ class MedicamentAdapter(
                 tvInstructions.visibility = android.view.View.VISIBLE
             } else {
                 tvInstructions.visibility = android.view.View.GONE
+            }
+
+            btnSupprimer.setOnClickListener {
+                onDeleteClick(position)
             }
         }
     }

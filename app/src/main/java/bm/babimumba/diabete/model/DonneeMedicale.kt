@@ -1,7 +1,7 @@
 package bm.babimumba.diabete.model
 
 data class DonneeMedicale(
-    val id: String = "",
+    var id: String = "",
     val patientId: String = "",
     val dateHeure: String = "",
     val glycemie: String = "", // String pour gestion saisie utilisateur

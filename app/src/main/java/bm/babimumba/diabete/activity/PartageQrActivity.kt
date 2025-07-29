@@ -15,8 +15,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import bm.babimumba.diabete.adapter.MedecinAccesAdapter
 import bm.babimumba.diabete.model.MedecinAcces
-import bm.babimumba.diabete.repository.UserRepository
+import bm.babimumba.diabete.model.Medecin
+import bm.babimumba.diabete.utils.Constant
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 
@@ -24,8 +26,9 @@ class PartageQrActivity : AppCompatActivity() {
     lateinit var binding: ActivityPartageQrBinding
     private val medecins = mutableListOf<MedecinAcces>()
     private lateinit var adapter: MedecinAccesAdapter
-    private val userRepository = UserRepository()
+    private val db = FirebaseFirestore.getInstance()
     private val userId: String by lazy { FirebaseAuth.getInstance().currentUser?.uid ?: "" }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPartageQrBinding.inflate(layoutInflater)
@@ -68,24 +71,86 @@ class PartageQrActivity : AppCompatActivity() {
     }
 
     private fun chargerMedecinsAcces() {
-        userRepository.getMedecinsAcces(userId,
-            onSuccess = {
+        // Charger les médecins qui ont accès accepté depuis la collection "partages"
+        db.collection("partages")
+            .whereEqualTo("patientId", userId)
+            .whereEqualTo("statut", "accepte")
+            .get()
+            .addOnSuccessListener { documents ->
                 medecins.clear()
-                medecins.addAll(it)
-                adapter.notifyDataSetChanged()
-            },
-            onError = { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
-        )
+                var loadedCount = 0
+                
+                if (documents.isEmpty) {
+                    adapter.notifyDataSetChanged()
+                    return@addOnSuccessListener
+                }
+                
+                for (document in documents) {
+                    val medecinId = document.getString("medecinId")
+                    if (medecinId != null) {
+                        // Charger les informations du médecin
+                        db.collection(Constant.USER_COLLECTION)
+                            .document(medecinId)
+                            .get()
+                            .addOnSuccessListener { medecinDoc ->
+                                if (medecinDoc.exists()) {
+                                    val medecin = medecinDoc.toObject(Medecin::class.java)
+                                    medecin?.let { med ->
+                                        val medecinAcces = MedecinAcces(
+                                            id = medecinId,
+                                            nom = "${med.nom} ${med.prenom}",
+                                            email = med.email
+                                        )
+                                        medecins.add(medecinAcces)
+                                    }
+                                }
+                                loadedCount++
+                                
+                                if (loadedCount == documents.size()) {
+                                    adapter.notifyDataSetChanged()
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                loadedCount++
+                                if (loadedCount == documents.size()) {
+                                    adapter.notifyDataSetChanged()
+                                }
+                            }
+                    } else {
+                        loadedCount++
+                        if (loadedCount == documents.size()) {
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erreur: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun revoquerAccesMedecin(medecin: MedecinAcces) {
-        userRepository.revoquerAccesMedecin(userId, medecin.id,
-            onSuccess = {
-                medecins.remove(medecin)
-                adapter.notifyDataSetChanged()
-                Toast.makeText(this, "Accès révoqué", Toast.LENGTH_SHORT).show()
-            },
-            onError = { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
-        )
+        // Mettre à jour le statut à "refuse" dans la collection "partages"
+        db.collection("partages")
+            .whereEqualTo("patientId", userId)
+            .whereEqualTo("medecinId", medecin.id)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val document = documents.first()
+                    document.reference.update("statut", "refuse")
+                        .addOnSuccessListener {
+                            medecins.remove(medecin)
+                            adapter.notifyDataSetChanged()
+                            Toast.makeText(this, "Accès révoqué", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "Erreur: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erreur: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

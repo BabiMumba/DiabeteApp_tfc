@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import bm.babimumba.diabete.R
 import bm.babimumba.diabete.activity.CreerPrescriptionActivity
 import bm.babimumba.diabete.activity.DetailActivity
+import bm.babimumba.diabete.activity.PatientDetailActivity
 import bm.babimumba.diabete.adapter.PatientMedecinAdapter
 import bm.babimumba.diabete.databinding.FragmentHomeDocBinding
 import bm.babimumba.diabete.model.Patient
+import bm.babimumba.diabete.utils.Constant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -39,7 +41,7 @@ class HomeDoc : Fragment() {
         patientAdapter = PatientMedecinAdapter(
             patients,
             onVoirDonneesClick = { patient ->
-                val intent = Intent(requireContext(), DetailActivity::class.java)
+                val intent = Intent(requireContext(), PatientDetailActivity::class.java)
                 intent.putExtra("patient_id", patient.id)
                 startActivity(intent)
             },
@@ -89,7 +91,7 @@ class HomeDoc : Fragment() {
         patients.clear()
 
         for (patientId in patientIds) {
-            db.collection("patients").document(patientId).get()
+            db.collection(Constant.USER_COLLECTION).document(patientId).get()
                 .addOnSuccessListener { document ->
                     val patient = document.toObject(Patient::class.java)
                     patient?.let {

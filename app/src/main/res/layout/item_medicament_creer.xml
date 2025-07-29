@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_8sdp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/_12sdp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNomMedicament"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Métformine"
+                android:textColor="@color/Accent"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/_4sdp" />
+
+            <TextView
+                android:id="@+id/tvDosage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dosage : 500mg"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/primary_text"
+                android:layout_marginBottom="@dimen/_2sdp" />
+
+            <TextView
+                android:id="@+id/tvFrequence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fréquence : 2x/jour"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/primary_text"
+                android:layout_marginBottom="@dimen/_2sdp" />
+
+            <TextView
+                android:id="@+id/tvDuree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Durée : 30 jours"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/primary_text"
+                android:layout_marginBottom="@dimen/_2sdp" />
+
+            <TextView
+                android:id="@+id/tvQuantite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quantité : 60 comprimés"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/primary_text"
+                android:layout_marginBottom="@dimen/_4sdp" />
+
+            <TextView
+                android:id="@+id/tvInstructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Instructions : À prendre avec les repas"
+                android:textSize="@dimen/_11ssp"
+                android:textColor="@color/grey"
+                android:textStyle="italic"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnSupprimer"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:src="@drawable/baseline_delete_outline_24"
+            app:tint="@android:color/holo_red_dark" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView> 

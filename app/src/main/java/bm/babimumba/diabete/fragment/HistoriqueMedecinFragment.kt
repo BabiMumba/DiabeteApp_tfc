@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import bm.babimumba.diabete.activity.DetailPrescriptionActivity
 //import bm.babimumba.diabete.activity.DetailPrescriptionActivity
 import bm.babimumba.diabete.adapter.PrescriptionAdapter
 import bm.babimumba.diabete.databinding.FragmentHistoriqueMedecinBinding
@@ -39,11 +40,11 @@ class HistoriqueMedecinFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        prescriptionAdapter = PrescriptionAdapter(prescriptions) { prescription ->
+                prescriptionAdapter = PrescriptionAdapter(prescriptions) { prescription ->
             // Ouvrir le détail de la prescription
- /*           val intent = Intent(requireContext(), DetailPrescriptionActivity::class.java)
+            val intent = Intent(requireContext(), DetailPrescriptionActivity::class.java)
             intent.putExtra("prescription_id", prescription.id)
-            startActivity(intent)*/
+            startActivity(intent)
         }
         
         binding.recyclerViewPrescriptions.apply {

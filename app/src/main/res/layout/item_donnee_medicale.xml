@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/_8sdp"
+    android:layout_margin="@dimen/_8sdp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="@color/white">
 
     <LinearLayout
@@ -14,61 +14,76 @@
         android:orientation="vertical"
         android:padding="@dimen/_12sdp">
 
+        <!-- Date et heure -->
         <TextView
-            android:id="@+id/tvNomMedicament"
+            android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Métformine"
-            android:textColor="@color/Accent"
+            android:text="15/12/2024 14:30"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            android:layout_marginBottom="@dimen/_4sdp" />
+            android:textColor="@color/primary"
+            android:layout_marginBottom="@dimen/_8sdp" />
 
+        <!-- Glycémie -->
         <TextView
-            android:id="@+id/tvDosage"
+            android:id="@+id/tvGlycemie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dosage : 500mg"
-            android:textSize="@dimen/_12ssp"
-            android:textColor="@color/primary_text"
-            android:layout_marginBottom="@dimen/_2sdp" />
-
-        <TextView
-            android:id="@+id/tvFrequence"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fréquence : 2x/jour"
-            android:textSize="@dimen/_12ssp"
-            android:textColor="@color/primary_text"
-            android:layout_marginBottom="@dimen/_2sdp" />
-
-        <TextView
-            android:id="@+id/tvDuree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Durée : 30 jours"
-            android:textSize="@dimen/_12ssp"
-            android:textColor="@color/primary_text"
-            android:layout_marginBottom="@dimen/_2sdp" />
-
-        <TextView
-            android:id="@+id/tvQuantite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantité : 60 comprimés"
-            android:textSize="@dimen/_12ssp"
+            android:text="Glycémie : 120 mg/dL"
+            android:textSize="@dimen/_13ssp"
             android:textColor="@color/primary_text"
             android:layout_marginBottom="@dimen/_4sdp" />
 
+        <!-- Insuline -->
         <TextView
-            android:id="@+id/tvInstructions"
+            android:id="@+id/tvInsuline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Instructions : À prendre avec les repas"
-            android:textSize="@dimen/_11ssp"
-            android:textColor="@color/grey"
-            android:textStyle="italic"
-            android:visibility="gone" />
+            android:text="Insuline : 5 unités"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/primary_text"
+            android:layout_marginBottom="@dimen/_4sdp" />
+
+        <!-- Repas -->
+        <TextView
+            android:id="@+id/tvRepas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repas : Déjeuner"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/primary_text"
+            android:layout_marginBottom="@dimen/_4sdp" />
+
+        <!-- Activité -->
+        <TextView
+            android:id="@+id/tvActivite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activité : Marche"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/primary_text"
+            android:layout_marginBottom="@dimen/_4sdp" />
+
+        <!-- Commentaire -->
+        <TextView
+            android:id="@+id/tvCommentaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Commentaire : Se sent bien"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/primary_text"
+            android:layout_marginBottom="@dimen/_4sdp" />
+
+        <!-- Source -->
+        <TextView
+            android:id="@+id/tvSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Source : patient"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/secondary_text"
+            android:layout_marginTop="@dimen/_4sdp" />
 
     </LinearLayout>
 

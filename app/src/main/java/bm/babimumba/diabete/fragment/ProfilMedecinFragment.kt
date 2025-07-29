@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import bm.babimumba.diabete.auth.LoginActivity
 import bm.babimumba.diabete.databinding.FragmentProfilMedecinBinding
 import bm.babimumba.diabete.model.Medecin
+import bm.babimumba.diabete.utils.Constant
 import bm.babimumba.diabete.utils.RoleManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,7 +40,7 @@ class ProfilMedecinFragment : Fragment() {
         if (medecinId != null) {
             binding.progressBar.visibility = View.VISIBLE
 
-            db.collection("patients") // Utiliser la même collection pour les médecins
+            db.collection(Constant.USER_COLLECTION)
                 .document(medecinId)
                 .get()
                 .addOnSuccessListener { document ->
@@ -69,6 +70,7 @@ class ProfilMedecinFragment : Fragment() {
         binding.tvNumeroOrdre.text = medecin.numeroOrdre
         binding.tvHopital.text = medecin.hopital
         binding.tvAdresse.text = medecin.adresse
+        binding.tvTelephone.text = medecin.telephone
         binding.tvDateInscription.text = medecin.dateInscription
     }
 

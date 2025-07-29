@@ -8,6 +8,7 @@ import bm.babimumba.diabete.model.DonneeMedicale
 import android.util.Log
 import bm.babimumba.diabete.model.Rappel
 import bm.babimumba.diabete.model.MedecinAcces
+import bm.babimumba.diabete.utils.Constant
 
 class UserRepository {
     fun registerPatient(
@@ -40,7 +41,7 @@ class UserRepository {
                         role = role
                     )
                     val db = FirebaseFirestore.getInstance()
-                    db.collection("patients")
+                    db.collection(Constant.USER_COLLECTION)
                         .document(user?.uid ?: "")
                         .set(patient)
                         .addOnSuccessListener {
@@ -67,7 +68,7 @@ class UserRepository {
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("patients")
+        db.collection(Constant.USER_COLLECTION)
             .document(patientId)
             .get()
             .addOnSuccessListener { document ->
@@ -156,15 +157,14 @@ class UserRepository {
                 }
                 Log.d("UserRepository", "Mesures récupérées: ${mesures.size}")
                 // Filtrer les 7 derniers jours côté client
-                val dateLimite = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 10) // 7 jours en arrière
+                val dateLimite = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000L) // 7 days in milliseconds
                 val mesuresFiltrees = mesures.filter { mesure ->
-                    // Convertir la date String en timestamp pour comparaison
                     try {
                         val dateMesure = mesure.dateHeure.toLongOrNull() ?: 0L
                         dateMesure >= dateLimite
                     } catch (e: Exception) {
                         Log.d("UserRepository", "Erreur conversion date: ${mesure.dateHeure}")
-                        true // Si conversion échoue, inclure la mesure
+                        false // If conversion fails, exclude the measure
                     }
                 }
                 Log.d("UserRepository", "Mesures filtrées: ${mesuresFiltrees.size}")
@@ -196,7 +196,7 @@ class UserRepository {
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("patients").document(userId)
+        db.collection(Constant.USER_COLLECTION).document(userId)
             .collection("rappels")
             .document(rappel.id.toString())
             .set(rappel)
@@ -211,7 +211,7 @@ class UserRepository {
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("patients").document(userId)
+        db.collection(Constant.USER_COLLECTION).document(userId)
             .collection("rappels")
             .document(rappelId.toString())
             .delete()
@@ -225,7 +225,7 @@ class UserRepository {
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("patients").document(userId)
+        db.collection(Constant.USER_COLLECTION).document(userId)
             .collection("rappels")
             .get()
             .addOnSuccessListener { result ->
@@ -241,7 +241,7 @@ class UserRepository {
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("patients").document(patientId)
+        db.collection(Constant.USER_COLLECTION).document(patientId)
             .collection("acces_medecins")
             .get()
             .addOnSuccessListener { result ->
@@ -258,7 +258,7 @@ class UserRepository {
         onError: (String) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("patients").document(patientId)
+        db.collection(Constant.USER_COLLECTION).document(patientId)
             .collection("acces_medecins")
             .document(medecinId)
             .delete()

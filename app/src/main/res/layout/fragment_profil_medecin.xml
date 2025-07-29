@@ -32,11 +32,27 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvNomMedecin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:text="Nom : "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:id="@+id/tvNomMedecin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="Nom du médecin"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Email : "
+                    android:textStyle="bold"
                     android:textSize="@dimen/_12ssp" />
 
                 <TextView
@@ -48,11 +64,27 @@
                     android:textSize="@dimen/_12ssp" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Spécialité : "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
                     android:id="@+id/tvSpecialite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Spécialité"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Numéro d'ordre : "
+                    android:textStyle="bold"
                     android:textSize="@dimen/_12ssp" />
 
                 <TextView
@@ -64,6 +96,14 @@
                     android:textSize="@dimen/_12ssp" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Hôpital : "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
                     android:id="@+id/tvHopital"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,11 +112,43 @@
                     android:textSize="@dimen/_12ssp" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Adresse : "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
                     android:id="@+id/tvAdresse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Adresse"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Téléphone : "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:id="@+id/tvTelephone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Téléphone"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Date d'inscription : "
+                    android:textStyle="bold"
                     android:textSize="@dimen/_12ssp" />
 
                 <TextView

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import bm.babimumba.diabete.R
+import bm.babimumba.diabete.activity.DemandesAccesActivity
 import bm.babimumba.diabete.activity.ExportDataActivity
 import bm.babimumba.diabete.activity.MesPrescriptionsActivity
 import bm.babimumba.diabete.activity.PartageQrActivity
@@ -34,6 +35,9 @@ class MenuFragment : Fragment() {
         }
         binding.partageqr.setOnClickListener {
             VOID.Intent1(requireContext(), PartageQrActivity::class.java)
+        }
+        binding.demandesAcces.setOnClickListener {
+            VOID.Intent1(requireContext(), DemandesAccesActivity::class.java)
         }
         binding.exporterLyt.setOnClickListener {
             VOID.Intent1(requireContext(), ExportDataActivity::class.java)

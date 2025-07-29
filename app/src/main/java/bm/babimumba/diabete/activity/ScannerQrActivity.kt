@@ -32,6 +32,9 @@ class ScannerQrActivity : AppCompatActivity() {
         binding = ActivityScannerQrBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+        
+        // Forcer le mode portrait
+        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         setupToolbar()
         setupScanner()
@@ -54,7 +57,8 @@ class ScannerQrActivity : AppCompatActivity() {
             .setCameraId(0)
             .setBeepEnabled(true)
             .setBarcodeImageEnabled(true)
-            .setOrientationLocked(false)
+            .setOrientationLocked(true)
+            .setTorchEnabled(false)
 
         scanLauncher.launch(options)
     }

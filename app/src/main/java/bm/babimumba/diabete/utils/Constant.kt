@@ -11,5 +11,6 @@ object Constant {
     const val PREF_KEY_USER_HOPITAL = "user_hopital"
     const val PREF_KEY_USER_SPECIALITE = "user_specialite"
     const val PATIENT_COLLECTION = "patients"
+    const val USER_COLLECTION = "users"
 
 }

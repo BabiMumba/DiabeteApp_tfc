@@ -3,15 +3,20 @@ package bm.babimumba.diabete.activity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import bm.babimumba.diabete.R
-import bm.babimumba.diabete.adapter.MedicamentAdapter
+import bm.babimumba.diabete.adapter.CreerPrescriptionMedicamentAdapter
 import bm.babimumba.diabete.databinding.ActivityCreerPrescriptionBinding
 import bm.babimumba.diabete.model.Medicament
 import bm.babimumba.diabete.model.Patient
 import bm.babimumba.diabete.model.Prescription
+import bm.babimumba.diabete.utils.Constant
+import bm.babimumba.diabete.utils.DateUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -19,7 +24,7 @@ import java.util.*
 
 class CreerPrescriptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreerPrescriptionBinding
-    private lateinit var medicamentAdapter: MedicamentAdapter
+    private lateinit var medicamentAdapter: CreerPrescriptionMedicamentAdapter
     private val medicaments = mutableListOf<Medicament>()
     private var patient: Patient? = null
     private val db = FirebaseFirestore.getInstance()
@@ -30,10 +35,18 @@ class CreerPrescriptionActivity : AppCompatActivity() {
         binding = ActivityCreerPrescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        enableEdgeToEdge()
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(0, 0, 0, insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+
         setupToolbar()
         setupRecyclerView()
         setupButtons()
-        loadPatientData()
+        loadPatientInfo()
     }
 
     private fun setupToolbar() {
@@ -41,7 +54,7 @@ class CreerPrescriptionActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        medicamentAdapter = MedicamentAdapter(medicaments) { position ->
+        medicamentAdapter = CreerPrescriptionMedicamentAdapter(medicaments) { position ->
             medicaments.removeAt(position)
             medicamentAdapter.notifyItemRemoved(position)
             updateMedicamentCount()
@@ -63,24 +76,16 @@ class CreerPrescriptionActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadPatientData() {
-
+    private fun loadPatientInfo() {
         val patientId = intent.getStringExtra("patient_id")
         if (patientId != null) {
-            db.collection("patients").document(patientId).get()
+            db.collection(Constant.USER_COLLECTION).document(patientId).get()
                 .addOnSuccessListener { document ->
                     patient = document.toObject(Patient::class.java)
-                    val age = if (patient?.date_naissance != null) {
-                        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-                        val birthYear = patient!!.date_naissance.substring(0, 4).toInt()
-                        currentYear - birthYear
-                    } else {
-                        "--"
-                    }
+                    val age = DateUtils.calculateAge(patient?.date_naissance ?: "")
                     patient?.let {
                         binding.tvNomPatient.text = "${it.name} ${it.postnom}"
                         binding.tvAgePatient.text = "$age ans"
-
                     }
                 }
         }
