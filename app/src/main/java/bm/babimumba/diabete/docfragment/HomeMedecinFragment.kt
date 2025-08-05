@@ -70,7 +70,11 @@ class HomeMedecinFragment : Fragment() {
             startActivity(intent)
         }
 
-
+        // FAB pour ajouter des mesures
+        binding.fabAddMesure.setOnClickListener {
+            val intent = Intent(requireContext(), AddMesureMedecinActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun loadPatients() {
