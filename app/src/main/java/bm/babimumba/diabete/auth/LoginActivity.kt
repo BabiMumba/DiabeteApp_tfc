@@ -2,6 +2,7 @@ package bm.babimumba.diabete.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -44,7 +45,8 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            binding.progressBar.visibility = android.view.View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
+            binding.btnSave.btnModelUi.visibility = View.GONE
             val auth = FirebaseAuth.getInstance()
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
@@ -57,13 +59,13 @@ class LoginActivity : AppCompatActivity() {
                                 .document(userId)
                                 .get()
                                 .addOnSuccessListener { document ->
-                                    binding.progressBar.visibility = android.view.View.GONE
+                                    binding.progressBar.visibility = View.GONE
+                                    binding.btnSave.btnModelUi.visibility = View.VISIBLE
                                     if (document.exists()) {
                                         val role = document.getString("role")
                                         if (role != null) {
                                             // Sauvegarder le rôle
                                             RoleManager.saveUserRole(this, role, userId)
-                                            
                                             // Rediriger selon le rôle
                                             when (role) {
                                                 "patient" -> {
@@ -88,15 +90,18 @@ class LoginActivity : AppCompatActivity() {
                                     }
                                 }
                                 .addOnFailureListener { e ->
-                                    binding.progressBar.visibility = android.view.View.GONE
+                                    binding.progressBar.visibility = View.GONE
+                                    binding.btnSave.btnModelUi.visibility = View.VISIBLE
                                     Toast.makeText(this, "Erreur lors de la récupération du profil.", Toast.LENGTH_LONG).show()
                                 }
                         } else {
-                            binding.progressBar.visibility = android.view.View.GONE
+                            binding.progressBar.visibility = View.GONE
+                            binding.btnSave.btnModelUi.visibility = View.VISIBLE
                             Toast.makeText(this, "Erreur d'authentification.", Toast.LENGTH_LONG).show()
                         }
                     } else {
-                        binding.progressBar.visibility = android.view.View.GONE
+                        binding.progressBar.visibility = View.GONE
+                        binding.btnSave.btnModelUi.visibility = View.VISIBLE
                         Toast.makeText(this, "Email ou mot de passe incorrect.", Toast.LENGTH_LONG).show()
                     }
                 }

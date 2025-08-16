@@ -39,6 +39,17 @@
                     android:layout_marginStart="10dp"
                     android:id="@+id/menu_btn"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/menu_btn"
+                    android:text="hôpital Jason\n Sendwe"
+                    android:textColor="@color/white"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_13ssp"
+                    android:fontFamily="@font/poppins_bold"
+                    />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="@dimen/_40sdp"
@@ -72,7 +83,7 @@
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="babi"
+                        android:text=""
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp"

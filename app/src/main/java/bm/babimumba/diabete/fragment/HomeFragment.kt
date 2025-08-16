@@ -42,10 +42,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.btnAdd.setOnClickListener {
-            val intent = Intent(requireContext(), AddMesureActivity::class.java)
-            startActivity(intent)
-        }
+
         // Observer l'état du Home
         homeViewModel.homeState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -107,7 +104,7 @@ class HomeFragment : Fragment() {
             binding.tvDerniereDate.text = formatTimestamp(mesure.dateHeure)
         } else {
             binding.tvDerniereGlycemie.text = "Aucune mesure"
-            binding.tvDerniereDetails.text = "Ajoutez votre première mesure"
+            binding.tvDerniereDetails.text = "Votre médecin ajoutera vos mesures"
             binding.tvDerniereDate.text = ""
         }
     }
@@ -165,8 +162,11 @@ class HomeFragment : Fragment() {
         lineChart.setPinchZoom(true)
         lineChart.animateX(1000)
         
+        // Inverser l'ordre des données pour afficher de droite à gauche
+        val mesuresInversees = mesures.reversed()
+        
         // Série Glycémie
-        val entriesGlycemie = mesures.mapIndexed { index, mesure ->
+        val entriesGlycemie = mesuresInversees.mapIndexed { index, mesure ->
             Entry(index.toFloat(), mesure.glycemie.toFloatOrNull() ?: 0f)
         }
         val dataSetGlycemie = LineDataSet(entriesGlycemie, "Glycémie")
@@ -177,7 +177,7 @@ class HomeFragment : Fragment() {
         dataSetGlycemie.valueTextSize = 12f
 
         // Série Insuline
-        val entriesInsuline = mesures.mapIndexed { index, mesure ->
+        val entriesInsuline = mesuresInversees.mapIndexed { index, mesure ->
             Entry(index.toFloat(), mesure.insuline?.toFloatOrNull() ?: 0f)
         }
         val dataSetInsuline = LineDataSet(entriesInsuline, "Insuline")

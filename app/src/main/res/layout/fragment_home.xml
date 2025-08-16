@@ -45,7 +45,7 @@
                     android:padding="16dp">
 
                     <TextView
-                        android:text="Dernière mesure"
+                        android:text="Dernière mesure Glycemie"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="#000"
@@ -96,6 +96,7 @@
                 app:cardCornerRadius="@dimen/_12sdp">
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -184,6 +185,8 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    <!-- Bouton d'ajout supprimé - seuls les médecins peuvent ajouter des mesures -->
+    <!--
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -196,6 +199,7 @@
         android:backgroundTint="@color/Accent"
         android:id="@+id/btnAdd"
         />
+    -->
 
 
 

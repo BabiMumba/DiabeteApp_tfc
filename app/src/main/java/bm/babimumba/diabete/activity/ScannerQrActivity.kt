@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import bm.babimumba.diabete.databinding.ActivityScannerQrBinding
 import bm.babimumba.diabete.model.Partage
@@ -71,15 +72,31 @@ class ScannerQrActivity : AppCompatActivity() {
             db.collection("partages")
                 .whereEqualTo("patientId", patientId)
                 .whereEqualTo("medecinId", medecinId)
-                .whereEqualTo("statut", "accepte")
                 .get()
                 .addOnSuccessListener { documents ->
                     if (!documents.isEmpty) {
-                        // Accès autorisé, ouvrir la fiche patient
-                        val intent = Intent(this, DetailActivity::class.java)
-                        intent.putExtra("patient_id", patientId)
-                        startActivity(intent)
-                        finish()
+                        val partage = documents.documents.first().toObject(Partage::class.java)
+                        when (partage?.statut) {
+                            "accepte" -> {
+                                // Accès autorisé, ouvrir la fiche patient
+                                val intent = Intent(this, PatientDetailActivity::class.java)
+                                intent.putExtra("patient_id", patientId)
+                                startActivity(intent)
+                                finish()
+                            }
+                            "en_attente" -> {
+                                // Demande déjà envoyée
+                                showAlreadyRequestedDialog()
+                            }
+                            "refuse" -> {
+                                // Accès refusé
+                                showAccessDeniedDialog()
+                            }
+                            else -> {
+                                // Pas d'accès, demander l'autorisation
+                                requestPatientAccess(patientId)
+                            }
+                        }
                     } else {
                         // Pas d'accès, demander l'autorisation
                         requestPatientAccess(patientId)
@@ -89,6 +106,28 @@ class ScannerQrActivity : AppCompatActivity() {
                     Toast.makeText(this, "Erreur: ${e.message}", Toast.LENGTH_LONG).show()
                 }
         }
+    }
+
+    private fun showAlreadyRequestedDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Demande déjà envoyée")
+            .setMessage("Vous avez déjà envoyé une demande d'accès à ce patient. Veuillez attendre sa réponse.")
+            .setPositiveButton("OK") { _, _ ->
+                finish()
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun showAccessDeniedDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Accès refusé")
+            .setMessage("Le patient a refusé votre demande d'accès à ses données médicales.")
+            .setPositiveButton("OK") { _, _ ->
+                finish()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     private fun requestPatientAccess(patientId: String) {

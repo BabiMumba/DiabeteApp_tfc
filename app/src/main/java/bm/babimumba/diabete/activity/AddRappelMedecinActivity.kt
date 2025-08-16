@@ -3,22 +3,21 @@ package bm.babimumba.diabete.activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import bm.babimumba.diabete.databinding.ActivityAddMesureMedecinBinding
-import bm.babimumba.diabete.model.DonneeMedicale
+import bm.babimumba.diabete.databinding.ActivityAddRappelMedecinBinding
 import bm.babimumba.diabete.model.Patient
+import bm.babimumba.diabete.model.Rappel
 import bm.babimumba.diabete.utils.Constant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddMesureMedecinActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddMesureMedecinBinding
+class AddRappelMedecinActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAddRappelMedecinBinding
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val patients = mutableListOf<Patient>()
@@ -27,7 +26,7 @@ class AddMesureMedecinActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddMesureMedecinBinding.inflate(layoutInflater)
+        binding = ActivityAddRappelMedecinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupToolbar()
@@ -176,7 +175,7 @@ class AddMesureMedecinActivity : AppCompatActivity() {
     private fun setupSaveButton() {
         binding.btnSauvegarder.setOnClickListener {
             if (validateInputs()) {
-                saveMesure()
+                saveRappel()
             }
         }
     }
@@ -187,55 +186,43 @@ class AddMesureMedecinActivity : AppCompatActivity() {
             return false
         }
 
-        val glycemie = binding.etGlycemie.text.toString().trim()
-        val insuline = binding.etInsuline.text.toString().trim()
-        val repas = binding.etRepas.text.toString().trim()
-        val activite = binding.etActivite.text.toString().trim()
-        val commentaire = binding.etCommentaire.text.toString().trim()
-
-        if (glycemie.isEmpty() && insuline.isEmpty() && repas.isEmpty() && activite.isEmpty() && commentaire.isEmpty()) {
-            Toast.makeText(this, "Veuillez remplir au moins un champ", Toast.LENGTH_SHORT).show()
+        val message = binding.etMessage.text.toString().trim()
+        if (message.isEmpty()) {
+            Toast.makeText(this, "Veuillez saisir un message", Toast.LENGTH_SHORT).show()
             return false
         }
 
         return true
     }
 
-    private fun saveMesure() {
+    private fun saveRappel() {
         binding.btnSauvegarder.isEnabled = false
         binding.progressBarSave.visibility = View.VISIBLE
 
-        val glycemie = binding.etGlycemie.text.toString().trim()
-        val insuline = binding.etInsuline.text.toString().trim()
-        val repas = binding.etRepas.text.toString().trim()
-        val activite = binding.etActivite.text.toString().trim()
-        val commentaire = binding.etCommentaire.text.toString().trim()
+        val message = binding.etMessage.text.toString().trim()
+        val rappelId = System.currentTimeMillis().toInt()
 
-        val donneeMedicale = DonneeMedicale(
-            patientId = selectedPatientId!!,
-            medecinId = auth.currentUser?.uid, // Ajouter l'ID du médecin
-            glycemie = glycemie.ifEmpty { null }.toString(),
-            insuline = insuline.ifEmpty { null },
-            repas = repas.ifEmpty { null },
-            activite = activite.ifEmpty { null },
-            commentaire = commentaire.ifEmpty { null },
-            dateHeure = selectedDateTime.toString(),
-            source = "medecin"
+        val rappel = Rappel(
+            id = rappelId,
+            timestamp = selectedDateTime,
+            type = "Rappel médecin",
+            message = message,
+            repetition = false
         )
 
-        Log.d("AddMesureMedecin", "Sauvegarde mesure: patientId=$selectedPatientId, dateHeure=$selectedDateTime, source=medecin")
-
-        db.collection("donnees_medicales")
-            .add(donneeMedicale)
-            .addOnSuccessListener { documentReference ->
-                Log.d("AddMesureMedecin", "Mesure sauvegardée avec ID: ${documentReference.id}")
+        // Sauvegarder le rappel dans la collection du patient
+        db.collection(Constant.USER_COLLECTION)
+            .document(selectedPatientId!!)
+            .collection("rappels")
+            .document(rappelId.toString())
+            .set(rappel)
+            .addOnSuccessListener {
                 binding.btnSauvegarder.isEnabled = true
                 binding.progressBarSave.visibility = View.GONE
-                Toast.makeText(this, "Mesure ajoutée avec succès", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Rappel ajouté avec succès", Toast.LENGTH_SHORT).show()
                 finish()
             }
             .addOnFailureListener { e ->
-                Log.e("AddMesureMedecin", "Erreur sauvegarde: ${e.message}")
                 binding.btnSauvegarder.isEnabled = true
                 binding.progressBarSave.visibility = View.GONE
                 Toast.makeText(this, "Erreur: ${e.message}", Toast.LENGTH_LONG).show()

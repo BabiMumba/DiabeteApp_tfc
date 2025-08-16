@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import bm.babimumba.diabete.activity.RappelActivity
+// RappelActivity supprimé - seuls les médecins peuvent ajouter des rappels
 import bm.babimumba.diabete.databinding.ActivityMainBinding
 import bm.babimumba.diabete.fragment.HistoriqueFragment
 import bm.babimumba.diabete.fragment.HomeFragment
@@ -17,6 +17,9 @@ import bm.babimumba.diabete.fragment.MenuFragment
 import bm.babimumba.diabete.utils.Constant.PREF_KEY_USER_NAME
 import bm.babimumba.diabete.utils.Constant.PREF_NAME
 import bm.babimumba.diabete.utils.VOID
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import bm.babimumba.diabete.utils.Constant
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -112,17 +115,42 @@ class MainActivity : AppCompatActivity() {
             R.id.history -> {
                 loadFragment(HistoriqueFragment())
             }
-            R.id.rappel -> {
-                VOID.Intent1(this, RappelActivity::class.java)
-            }
+            // Rappel supprimé - seuls les médecins peuvent ajouter des rappels
         }
         binding.drawerLayout.closeDrawers() // Fermer le tiroir après la sélection
     }
 
-    fun  loadname(){
+    fun loadname(){
         val sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE)
         val userName = sharedPreferences.getString(PREF_KEY_USER_NAME, "")
-        binding.tvName.text = userName ?: ""
-        binding.navView.getHeaderView(0).findViewById<TextView>(R.id.name_user).text = userName ?: ""
+        
+        // Si le nom n'est pas dans les préférences, le récupérer depuis Firestore
+        if (userName.isNullOrEmpty()) {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            if (userId != null) {
+                val db = FirebaseFirestore.getInstance()
+                db.collection(Constant.USER_COLLECTION)
+                    .document(userId)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        if (document.exists()) {
+                            val patientName = document.getString("name") ?: ""
+                            val patientPostnom = document.getString("postnom") ?: ""
+                            val fullName = "$patientName $patientPostnom".trim()
+                            
+                            // Sauvegarder dans les préférences
+                            val prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE)
+                            prefs.edit().putString(PREF_KEY_USER_NAME, fullName).apply()
+                            
+                            // Afficher le nom
+                            binding.tvName.text = fullName
+                            binding.navView.getHeaderView(0).findViewById<TextView>(R.id.name_user).text = fullName
+                        }
+                    }
+            }
+        } else {
+            binding.tvName.text = userName
+            binding.navView.getHeaderView(0).findViewById<TextView>(R.id.name_user).text = userName
+        }
     }
 }

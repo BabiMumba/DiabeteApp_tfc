@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import bm.babimumba.diabete.activity.AddMesureMedecinActivity
+import bm.babimumba.diabete.activity.AddRappelMedecinActivity
 import bm.babimumba.diabete.activity.CreerPrescriptionActivity
 import bm.babimumba.diabete.activity.DetailActivity
 import bm.babimumba.diabete.activity.PatientDetailActivity
@@ -70,11 +71,12 @@ class HomeMedecinFragment : Fragment() {
             startActivity(intent)
         }
 
-        // FAB pour ajouter des mesures
-        binding.fabAddMesure.setOnClickListener {
-            val intent = Intent(requireContext(), AddMesureMedecinActivity::class.java)
+        // FAB pour ajouter un rappel
+        binding.fabRappel.setOnClickListener {
+            val intent = Intent(requireContext(), AddRappelMedecinActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     private fun loadPatients() {

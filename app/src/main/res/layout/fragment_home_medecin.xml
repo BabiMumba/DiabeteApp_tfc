@@ -44,6 +44,17 @@
             app:backgroundTint="@color/Accent"
             app:tint="@color/white" />
 
+        <!-- FAB pour ajouter un rappel -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabRappel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="16dp"
+            android:src="@drawable/baseline_access_time_24"
+            app:backgroundTint="@color/Accent"
+            app:tint="@color/white" />
+
 
 
     </FrameLayout>

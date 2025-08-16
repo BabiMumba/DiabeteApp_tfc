@@ -127,7 +127,7 @@ class UserRepository {
             .orderBy("dateHeure", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .get(com.google.firebase.firestore.Source.SERVER) // Forcer le serveur
             .addOnSuccessListener { result ->
-                val list = result.documents.mapNotNull { it.toObject(bm.babimumba.diabete.model.DonneeMedicale::class.java) }
+                val list = result.documents.mapNotNull { it.toObject(DonneeMedicale::class.java) }
                 Log.d("UserRepository", "Historique - Mesures récupérées: ${list.size}")
                 list.forEachIndexed { index, mesure ->
                     Log.d("UserRepository", "Historique[$index]: date=${mesure.dateHeure}, source=${mesure.source}, glycemie=${mesure.glycemie}")
@@ -197,9 +197,8 @@ class UserRepository {
             }
     }
 
-    fun calculerStatistiques(mesures: List<bm.babimumba.diabete.model.DonneeMedicale>): Triple<Double, Double, Double> {
+    fun calculerStatistiques(mesures: List<DonneeMedicale>): Triple<Double, Double, Double> {
         if (mesures.isEmpty()) return Triple(0.0, 0.0, 0.0)
-
         val valeurs = mesures.mapNotNull { it.glycemie.toDoubleOrNull() }
         if (valeurs.isEmpty()) return Triple(0.0, 0.0, 0.0)
 

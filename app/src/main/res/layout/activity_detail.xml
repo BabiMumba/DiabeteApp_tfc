@@ -88,6 +88,7 @@
                     android:src="@drawable/baseline_chevron_left_24"
                     android:contentDescription="Previous day" />
                 <TextView
+                    android:id="@+id/tvDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -98,6 +99,7 @@
                     android:gravity="center_horizontal" />
 
                 <TextView
+                    android:id="@+id/tvTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="23:08"
@@ -137,6 +139,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tvGlycemie"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="85"
@@ -171,11 +174,64 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/tvRepas"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="Pas de détails"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Insuline"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvInsuline"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="-"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Activité"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvActivite"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="-"
                             android:textColor="@color/text_color_secondary"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -421,6 +477,7 @@
                             android:layout_height="1dp"
                             android:layout_weight="1" />
                         <TextView
+                            android:id="@+id/tvSource"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Entrée manuelle"
@@ -444,6 +501,7 @@
                             android:layout_height="1dp"
                             android:layout_weight="1" />
                         <TextView
+                            android:id="@+id/tvSensation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Normale"
@@ -458,7 +516,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Note"
+                            android:text="Commentaire"
                             android:textColor="@color/text_color_secondary"
                             android:textSize="16sp" />
                         <View
@@ -466,6 +524,7 @@
                             android:layout_height="1dp"
                             android:layout_weight="1" />
                         <TextView
+                            android:id="@+id/tvCommentaire"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"

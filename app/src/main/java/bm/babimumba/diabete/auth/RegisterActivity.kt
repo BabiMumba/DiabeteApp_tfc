@@ -180,7 +180,6 @@ class RegisterActivity : AppCompatActivity() {
         editor.apply()
         VOID.showSnackBar(binding.root, "Inscription réussie")
         VOID.loading(false,binding.progressBar,binding.btnSave.btnModelUi)
-        
         // Sauvegarder le rôle patient et rediriger
         RoleManager.saveUserRole(this, "patient", FirebaseAuth.getInstance().currentUser?.uid ?: "")
         VOID.Intent1(this, MainActivity::class.java)

@@ -24,7 +24,7 @@
             android:padding="@dimen/_4sdp"
             android:clipToPadding="false"
             tools:listitem="@layout/item_mesure"
-            app:reverseLayout="true"
+            app:reverseLayout="false"
             />
 
 

@@ -9,10 +9,21 @@
     tools:context=".activity.SplashScreen">
 
     <ImageView
+        android:id="@+id/logo"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_200sdp"
         android:src="@drawable/logo"
         android:layout_centerInParent="true"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:text="hôpital Jason Sendwe"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        android:fontFamily="@font/poppins_bold"
         />
 
     <TextView

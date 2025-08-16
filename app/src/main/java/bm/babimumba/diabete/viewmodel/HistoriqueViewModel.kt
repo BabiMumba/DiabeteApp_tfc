@@ -21,7 +21,15 @@ class HistoriqueViewModel(private val userRepository: UserRepository = UserRepos
         userRepository.getDonneesMedicalesPatient(
             patientId,
             onSuccess = { mesures ->
-                _historiqueState.postValue(HistoriqueState.Success(mesures))
+                // Trier les mesures par date (plus récent en premier)
+                val mesuresTriees = mesures.sortedByDescending { mesure ->
+                    try {
+                        mesure.dateHeure.toLongOrNull() ?: 0L
+                    } catch (e: Exception) {
+                        0L
+                    }
+                }
+                _historiqueState.postValue(HistoriqueState.Success(mesuresTriees))
             },
             onError = { error ->
                 _historiqueState.postValue(HistoriqueState.Error(error))

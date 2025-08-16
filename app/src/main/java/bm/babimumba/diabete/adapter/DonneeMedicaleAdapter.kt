@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import bm.babimumba.diabete.databinding.ItemDonneeMedicaleBinding
 import bm.babimumba.diabete.model.DonneeMedicale
+import bm.babimumba.diabete.utils.Constant
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -12,6 +13,9 @@ class DonneeMedicaleAdapter(
     private var donnees: List<DonneeMedicale>,
     private val onItemClick: ((DonneeMedicale) -> Unit)? = null
 ) : RecyclerView.Adapter<DonneeMedicaleAdapter.DonneeViewHolder>() {
+    
+    // Cache pour les noms des médecins
+    private val medecinNamesCache = mutableMapOf<String, String>()
 
     inner class DonneeViewHolder(private val binding: ItemDonneeMedicaleBinding) : RecyclerView.ViewHolder(binding.root) {
         
@@ -75,8 +79,61 @@ class DonneeMedicaleAdapter(
                 binding.tvCommentaire.visibility = android.view.View.GONE
             }
             
-            // Source
-            binding.tvSource.text = "Source : ${donnee.source}"
+            // Source avec nom du médecin si applicable
+            if (donnee.source == "medecin" && !donnee.medecinId.isNullOrEmpty()) {
+                val medecinId = donnee.medecinId
+                
+                // Vérifier le cache d'abord
+                if (medecinNamesCache.containsKey(medecinId)) {
+                    val nomCache = medecinNamesCache[medecinId]
+                    if (!nomCache.isNullOrEmpty()) {
+                        binding.tvSource.text = "Source : Dr. $nomCache"
+                    } else {
+                        binding.tvSource.text = "Source : Médecin"
+                    }
+                } else {
+                    // Récupérer le nom du médecin depuis Firestore
+                    val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                    db.collection(Constant.USER_COLLECTION)
+                        .document(medecinId)
+                        .get()
+                        .addOnSuccessListener { document ->
+                            if (document.exists()) {
+                                // Essayer d'abord les champs pour les médecins (nom, prenom)
+                                var nomMedecin = document.getString("nom") ?: ""
+                                var postnomMedecin = document.getString("prenom") ?: ""
+                                
+                                // Si pas trouvé, essayer les champs pour les patients (name, postnom)
+                                if (nomMedecin.isEmpty() && postnomMedecin.isEmpty()) {
+                                    nomMedecin = document.getString("name") ?: ""
+                                    postnomMedecin = document.getString("postnom") ?: ""
+                                }
+                                
+                                val nomComplet = "$nomMedecin $postnomMedecin".trim()
+                                
+                                android.util.Log.d("DonneeMedicaleAdapter", "Médecin trouvé: nom=$nomMedecin, postnom=$postnomMedecin, complet=$nomComplet")
+                                
+                                if (nomComplet.isNotEmpty()) {
+                                    // Mettre en cache
+                                    medecinNamesCache[medecinId] = nomComplet
+                                    
+                                    // Mettre à jour l'affichage
+                                    binding.tvSource.text = "Source : Dr. $nomComplet"
+                                } else {
+                                    binding.tvSource.text = "Source : Médecin"
+                                }
+                            } else {
+                                android.util.Log.d("DonneeMedicaleAdapter", "Document médecin non trouvé pour ID: $medecinId")
+                                binding.tvSource.text = "Source : Médecin"
+                            }
+                        }
+                        .addOnFailureListener {
+                            binding.tvSource.text = "Source : Médecin"
+                        }
+                }
+            } else {
+                binding.tvSource.text = "Source : ${donnee.source}"
+            }
         }
     }
 
