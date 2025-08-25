@@ -12,7 +12,6 @@ data class DonneeMedicale(
     val commentaire: String? = null,
     val mesureValide: Boolean = true,
     val source: String = "patient",
-    // Champs d'intégrité blockchain
     val integrityHash: String? = null,
     val blockchainTimestamp: Long? = null,
     val blockchainVerified: Boolean = false,

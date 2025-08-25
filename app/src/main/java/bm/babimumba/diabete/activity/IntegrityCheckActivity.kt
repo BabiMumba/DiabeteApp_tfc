@@ -11,15 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import bm.babimumba.diabete.adapter.DonneeMedicaleAdapter
 import bm.babimumba.diabete.databinding.ActivityIntegrityCheckBinding
 import bm.babimumba.diabete.model.DonneeMedicale
+import bm.babimumba.diabete.model.Patient
 import bm.babimumba.diabete.repository.UserRepository
+import bm.babimumba.diabete.utils.Constant
 import bm.babimumba.diabete.utils.IntegrityManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class IntegrityCheckActivity : AppCompatActivity() {
     
     private lateinit var binding: ActivityIntegrityCheckBinding
     private val integrityManager = IntegrityManager()
     private val userRepository = UserRepository()
+    private val db = FirebaseFirestore.getInstance()
     private val donnees = mutableListOf<DonneeMedicale>()
     private lateinit var adapter: DonneeMedicaleAdapter
     
@@ -62,30 +66,77 @@ class IntegrityCheckActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             finish()
         }
+        
+        // Test de connexion au backend au démarrage
+        testBackendConnection()
     }
     
     private fun loadMedicalData() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        if (userId != null) {
+        val medecinId = FirebaseAuth.getInstance().currentUser?.uid
+        if (medecinId != null) {
             binding.progressBar.visibility = View.VISIBLE
             
-            userRepository.getDonneesMedicalesPatient(
-                patientId = userId,
-                onSuccess = { donneesList ->
-                    binding.progressBar.visibility = View.GONE
-                    donnees.clear()
-                    donnees.addAll(donneesList)
-                    adapter.notifyDataSetChanged()
+            // Charger d'abord les patients qui ont accordé l'accès au médecin
+            db.collection("partages")
+                .whereEqualTo("medecinId", medecinId)
+                .whereEqualTo("statut", "accepte")
+                .get()
+                .addOnSuccessListener { documents ->
+                    val patientIds = documents.map { it.getString("patientId") ?: "" }.filter { it.isNotEmpty() }
                     
-                    if (donnees.isEmpty()) {
-                        binding.tvNoData.visibility = View.VISIBLE
+                    if (patientIds.isNotEmpty()) {
+                        // Charger les données médicales de tous les patients
+                        loadAllPatientsData(patientIds)
                     } else {
-                        binding.tvNoData.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
+                        binding.tvNoData.visibility = View.VISIBLE
+                        binding.tvNoData.text = "Aucun patient avec accès trouvé"
+                    }
+                }
+                .addOnFailureListener { e ->
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Erreur: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+        }
+    }
+    
+    private fun loadAllPatientsData(patientIds: List<String>) {
+        donnees.clear()
+        var loadedCount = 0
+        val totalCount = patientIds.size
+        
+        patientIds.forEach { patientId ->
+            userRepository.getDonneesMedicalesPatient(
+                patientId = patientId,
+                onSuccess = { donneesList ->
+                    donnees.addAll(donneesList)
+                    loadedCount++
+                    
+                    if (loadedCount == totalCount) {
+                        binding.progressBar.visibility = View.GONE
+                        adapter.notifyDataSetChanged()
+                        
+                        if (donnees.isEmpty()) {
+                            binding.tvNoData.visibility = View.VISIBLE
+                            binding.tvNoData.text = "Aucune donnée médicale trouvée pour vos patients"
+                        } else {
+                            binding.tvNoData.visibility = View.GONE
+                        }
                     }
                 },
                 onError = { error ->
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Erreur: $error", Toast.LENGTH_LONG).show()
+                    loadedCount++
+                    if (loadedCount == totalCount) {
+                        binding.progressBar.visibility = View.GONE
+                        adapter.notifyDataSetChanged()
+                        
+                        if (donnees.isEmpty()) {
+                            binding.tvNoData.visibility = View.VISIBLE
+                            binding.tvNoData.text = "Aucune donnée médicale trouvée pour vos patients"
+                        } else {
+                            binding.tvNoData.visibility = View.GONE
+                        }
+                    }
                 }
             )
         }
@@ -162,6 +213,20 @@ class IntegrityCheckActivity : AppCompatActivity() {
             }
             
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
+    }
+    
+    private fun testBackendConnection() {
+        binding.progressBar.visibility = View.VISIBLE
+        
+        integrityManager.testBackendConnection { isConnected ->
+            binding.progressBar.visibility = View.GONE
+            
+            if (isConnected) {
+                Toast.makeText(this, "✅ Connexion au backend établie", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "❌ Impossible de se connecter au backend", Toast.LENGTH_LONG).show()
+            }
         }
     }
 } 

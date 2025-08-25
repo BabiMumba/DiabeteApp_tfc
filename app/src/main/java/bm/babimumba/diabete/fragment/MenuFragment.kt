@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import bm.babimumba.diabete.R
 import bm.babimumba.diabete.activity.DemandesAccesActivity
 import bm.babimumba.diabete.activity.ExportDataActivity
-import bm.babimumba.diabete.activity.IntegrityCheckActivity
+
 import bm.babimumba.diabete.activity.MesPrescriptionsActivity
 import bm.babimumba.diabete.activity.PartageQrActivity
 import bm.babimumba.diabete.activity.RappelActivity
@@ -49,9 +49,7 @@ class MenuFragment : Fragment() {
         binding.settingLyt.setOnClickListener {
 
         }
-        binding.integrityCheck.setOnClickListener {
-            VOID.Intent1(requireContext(), IntegrityCheckActivity::class.java)
-        }
+
         binding.logout.setOnClickListener {
             logout()
         }

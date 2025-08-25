@@ -7,11 +7,15 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import bm.babimumba.diabete.databinding.ActivityAddMesureMedecinBinding
 import bm.babimumba.diabete.model.DonneeMedicale
 import bm.babimumba.diabete.model.Patient
 import bm.babimumba.diabete.utils.Constant
+import bm.babimumba.diabete.utils.IntegrityManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -21,6 +25,7 @@ class AddMesureMedecinActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddMesureMedecinBinding
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+    private val integrityManager = IntegrityManager()
     private val patients = mutableListOf<Patient>()
     private var selectedPatientId: String? = null
     private var selectedDateTime: Long = System.currentTimeMillis()
@@ -29,6 +34,14 @@ class AddMesureMedecinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMesureMedecinBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        enableEdgeToEdge()
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(0, 0, 0, insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
 
         setupToolbar()
         setupDateTimePicker()
@@ -225,14 +238,30 @@ class AddMesureMedecinActivity : AppCompatActivity() {
 
         Log.d("AddMesureMedecin", "Sauvegarde mesure: patientId=$selectedPatientId, dateHeure=$selectedDateTime, source=medecin")
 
+        // 1. Sauvegarder d'abord dans Firestore
         db.collection("donnees_medicales")
             .add(donneeMedicale)
             .addOnSuccessListener { documentReference ->
                 Log.d("AddMesureMedecin", "Mesure sauvegardée avec ID: ${documentReference.id}")
-                binding.btnSauvegarder.isEnabled = true
-                binding.progressBarSave.visibility = View.GONE
-                Toast.makeText(this, "Mesure ajoutée avec succès", Toast.LENGTH_SHORT).show()
-                finish()
+                
+                // 2. Enregistrer le hash sur la blockchain
+                integrityManager.processMedicalData(
+                    donnee = donneeMedicale,
+                    onSuccess = { hash ->
+                        Log.d("AddMesureMedecin", "Hash enregistré sur blockchain: $hash")
+                        binding.btnSauvegarder.isEnabled = true
+                        binding.progressBarSave.visibility = View.GONE
+                        Toast.makeText(this, "Mesure ajoutée avec intégrité blockchain", Toast.LENGTH_SHORT).show()
+                        finish()
+                    },
+                    onError = { error ->
+                        Log.e("AddMesureMedecin", "Erreur blockchain: $error")
+                        binding.btnSauvegarder.isEnabled = true
+                        binding.progressBarSave.visibility = View.GONE
+                        Toast.makeText(this, "Mesure ajoutée (erreur blockchain: $error)", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                )
             }
             .addOnFailureListener { e ->
                 Log.e("AddMesureMedecin", "Erreur sauvegarde: ${e.message}")

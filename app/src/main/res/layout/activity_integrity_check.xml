@@ -39,7 +39,7 @@
                 android:fontFamily="serif"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Verification d'integrité"
+                android:text="Vérification d'intégrité - Médecin"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:textStyle="bold"
@@ -76,7 +76,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🔒 Vérification Blockchain"
+                    android:text="🔒 Vérification Blockchain - Interface Médecin"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#1976D2"
@@ -85,7 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cette fonctionnalité vérifie l'intégrité de vos données médicales en utilisant la blockchain. Chaque mesure est hachée et enregistrée de manière sécurisée."
+                    android:text="Cette fonctionnalité permet aux médecins de vérifier l'intégrité des données médicales de leurs patients en utilisant la blockchain. Chaque mesure est hachée et enregistrée de manière sécurisée."
                     android:textSize="14sp"
                     android:textColor="#424242"
                     android:lineSpacingExtra="4dp" />

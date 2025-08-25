@@ -8,9 +8,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import bm.babimumba.diabete.R
 import bm.babimumba.diabete.databinding.ActivityMainMedecinBinding
+import bm.babimumba.diabete.activity.IntegrityCheckActivity
 import bm.babimumba.diabete.docfragment.HomeMedecinFragment
 import bm.babimumba.diabete.fragment.HistoriqueMedecinFragment
 import bm.babimumba.diabete.fragment.ProfilMedecinFragment
+import bm.babimumba.diabete.utils.VOID
 
 class MainActivityMedecin : AppCompatActivity() {
     private lateinit var binding: ActivityMainMedecinBinding
@@ -51,6 +53,11 @@ class MainActivityMedecin : AppCompatActivity() {
                 R.id.nav_profil_medecin -> {
                     binding.titreFr.text = "Profil"
                     loadFragment(ProfilMedecinFragment())
+                    true
+                }
+                R.id.integrity_check -> {
+                    // Lancer l'activité de vérification d'intégrité
+                    VOID.Intent1(this, IntegrityCheckActivity::class.java)
                     true
                 }
                 else -> false

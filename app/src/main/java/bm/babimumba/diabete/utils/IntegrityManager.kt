@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 /**
  * Gestionnaire d'intégrité des données médicales
- * Coordonne le hachage et l'enregistrement sur la blockchain
+ * Coordonne le hachage et l'enregistrement sur la blockchain via le backend Node.js
  */
 class IntegrityManager {
     
@@ -23,63 +23,44 @@ class IntegrityManager {
     /**
      * Traite une nouvelle donnée médicale avec intégrité blockchain
      * @param donnee La donnée médicale à traiter
-     * @param onSuccess Callback appelé en cas de succès
+     * @param onSuccess Callback appelé en cas de succès avec le hash généré
      * @param onError Callback appelé en cas d'erreur
      */
     fun processMedicalData(
         donnee: DonneeMedicale,
-        onSuccess: (DonneeMedicale) -> Unit,
+        onSuccess: (String) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
             try {
-                // 1. Générer le hash de la donnée
-                val timestamp = HashUtils.generateTimestamp()
-                val hash = HashUtils.generateMedicalDataHash(
+                Log.d(TAG, "🔗 Début du traitement de la donnée médicale")
+                
+                // 1. Préparer les données médicales pour le backend
+                val medicalData = mapOf<String, Any>(
+                    "dateHeure" to (donnee.dateHeure ?: ""),
+                    "glycemie" to (donnee.glycemie ?: ""),
+                    "repas" to (donnee.repas ?: ""),
+                    "insuline" to (donnee.insuline ?: ""),
+                    "activite" to (donnee.activite ?: ""),
+                    "commentaire" to (donnee.commentaire ?: ""),
+                    "source" to (donnee.source ?: "")
+                )
+                
+                // 2. Enregistrer le hash sur la blockchain via le backend
+                val hash = blockchainService.registerHashOnBlockchain(
                     patientId = donnee.patientId,
-                    dateHeure = donnee.dateHeure,
-                    glycemie = donnee.glycemie,
-                    repas = donnee.repas,
-                    insuline = donnee.insuline,
-                    activite = donnee.activite,
-                    commentaire = donnee.commentaire,
-                    timestamp = timestamp
+                    medicalData = medicalData
                 )
                 
-                Log.d(TAG, "Hash généré pour la donnée: $hash")
+                Log.d(TAG, "✅ Hash enregistré avec succès: $hash")
                 
-                // 2. Préparer les métadonnées pour la blockchain
-                val metadata = mapOf(
-                    "patientId" to donnee.patientId,
-                    "dateHeure" to donnee.dateHeure,
-                    "timestamp" to timestamp.toString(),
-                    "dataType" to "medical_data",
-                    "source" to donnee.source
-                )
-                
-                // 3. Enregistrer le hash sur la blockchain
-                val blockchainSuccess = blockchainService.registerHashOnBlockchain(hash, metadata)
-                
-                if (blockchainSuccess) {
-                    // 4. Créer la donnée avec intégrité
-                    val donneeWithIntegrity = donnee.copy(
-                        id = donnee.id.ifEmpty { generateId() },
-                        // Ajouter les champs d'intégrité
-                        // Note: Vous devrez modifier le modèle DonneeMedicale
-                    )
-                    
-                    Log.d(TAG, "Donnée médicale traitée avec succès, hash: $hash")
-                    
-                    // 5. Retourner le succès
-                    withContext(Dispatchers.Main) {
-                        onSuccess(donneeWithIntegrity)
-                    }
-                } else {
-                    throw Exception("Échec de l'enregistrement sur la blockchain")
+                // 3. Retourner le succès avec le hash
+                withContext(Dispatchers.Main) {
+                    onSuccess(hash)
                 }
                 
             } catch (e: Exception) {
-                Log.e(TAG, "Erreur lors du traitement de la donnée médicale", e)
+                Log.e(TAG, "❌ Erreur lors du traitement de la donnée médicale", e)
                 withContext(Dispatchers.Main) {
                     onError("Erreur d'intégrité: ${e.message}")
                 }
@@ -98,32 +79,37 @@ class IntegrityManager {
     ) {
         scope.launch {
             try {
-                // 1. Régénérer le hash de la donnée
-                val timestamp = HashUtils.generateTimestamp()
-                val expectedHash = HashUtils.generateMedicalDataHash(
-                    patientId = donnee.patientId,
-                    dateHeure = donnee.dateHeure,
-                    glycemie = donnee.glycemie,
-                    repas = donnee.repas,
-                    insuline = donnee.insuline,
-                    activite = donnee.activite,
-                    commentaire = donnee.commentaire,
-                    timestamp = timestamp
+                Log.d(TAG, "🔍 Début de la vérification d'intégrité")
+                
+                // 1. Préparer les données médicales pour la vérification
+                val medicalData = mapOf<String, Any>(
+                    "dateHeure" to (donnee.dateHeure ?: ""),
+                    "glycemie" to (donnee.glycemie ?: ""),
+                    "repas" to (donnee.repas ?: ""),
+                    "insuline" to (donnee.insuline ?: ""),
+                    "activite" to (donnee.activite ?: ""),
+                    "commentaire" to (donnee.commentaire ?: ""),
+                    "source" to (donnee.source ?: "")
                 )
                 
-                // 2. Vérifier sur la blockchain
-                val blockchainVerified = blockchainService.verifyHashOnBlockchain(expectedHash)
+                // 2. Vérifier sur la blockchain via le backend
+                val timestamp = donnee.dateHeure.toLongOrNull() ?: System.currentTimeMillis()
+                val blockchainVerified = blockchainService.verifyHashOnBlockchain(
+                    patientId = donnee.patientId,
+                    timestamp = timestamp,
+                    medicalData = medicalData
+                )
                 
-                Log.d(TAG, "Vérification d'intégrité: blockchain=$blockchainVerified, hash=$expectedHash")
+                Log.d(TAG, "🔍 Vérification d'intégrité terminée: $blockchainVerified")
                 
                 withContext(Dispatchers.Main) {
-                    onResult(blockchainVerified, expectedHash)
+                    onResult(blockchainVerified, "Hash vérifié via blockchain")
                 }
                 
             } catch (e: Exception) {
-                Log.e(TAG, "Erreur lors de la vérification d'intégrité", e)
+                Log.e(TAG, "❌ Erreur lors de la vérification d'intégrité", e)
                 withContext(Dispatchers.Main) {
-                    onResult(false, null)
+                    onResult(false, "Erreur: ${e.message}")
                 }
             }
         }
@@ -140,33 +126,46 @@ class IntegrityManager {
     ) {
         scope.launch {
             try {
+                Log.d(TAG, "🔍 Début de la vérification multiple: ${donnees.size} données")
+                
                 val results = mutableMapOf<String, Boolean>()
                 
                 donnees.forEach { donnee ->
-                    val timestamp = HashUtils.generateTimestamp()
-                    val hash = HashUtils.generateMedicalDataHash(
-                        patientId = donnee.patientId,
-                        dateHeure = donnee.dateHeure,
-                        glycemie = donnee.glycemie,
-                        repas = donnee.repas,
-                        insuline = donnee.insuline,
-                        activite = donnee.activite,
-                        commentaire = donnee.commentaire,
-                        timestamp = timestamp
-                    )
-                    
-                    val verified = blockchainService.verifyHashOnBlockchain(hash)
-                    results[donnee.id] = verified
+                    try {
+                        val medicalData = mapOf<String, Any>(
+                            "dateHeure" to (donnee.dateHeure ?: ""),
+                            "glycemie" to (donnee.glycemie ?: ""),
+                            "repas" to (donnee.repas ?: ""),
+                            "insuline" to (donnee.insuline ?: ""),
+                            "activite" to (donnee.activite ?: ""),
+                            "commentaire" to (donnee.commentaire ?: ""),
+                            "source" to (donnee.source ?: "")
+                        )
+                        
+                        val timestamp = donnee.dateHeure.toLongOrNull() ?: System.currentTimeMillis()
+                        val verified = blockchainService.verifyHashOnBlockchain(
+                            patientId = donnee.patientId,
+                            timestamp = timestamp,
+                            medicalData = medicalData
+                        )
+                        
+                        results[donnee.id] = verified
+                        Log.d(TAG, "✅ Donnée ${donnee.id}: $verified")
+                        
+                    } catch (e: Exception) {
+                        Log.e(TAG, "❌ Erreur pour la donnée ${donnee.id}:", e)
+                        results[donnee.id] = false
+                    }
                 }
                 
-                Log.d(TAG, "Vérification multiple terminée: ${results.size} données vérifiées")
+                Log.d(TAG, "🔍 Vérification multiple terminée: ${results.size} données vérifiées")
                 
                 withContext(Dispatchers.Main) {
                     onResult(results)
                 }
                 
             } catch (e: Exception) {
-                Log.e(TAG, "Erreur lors de la vérification multiple", e)
+                Log.e(TAG, "❌ Erreur lors de la vérification multiple", e)
                 withContext(Dispatchers.Main) {
                     onResult(emptyMap())
                 }
@@ -175,9 +174,27 @@ class IntegrityManager {
     }
     
     /**
-     * Génère un ID unique pour une donnée
+     * Test de connectivité avec le backend
+     * @param onResult Callback avec le résultat du test
      */
-    private fun generateId(): String {
-        return "data_${System.currentTimeMillis()}_${(0..9999).random()}"
+    fun testBackendConnection(onResult: (Boolean) -> Unit) {
+        scope.launch {
+            try {
+                Log.d(TAG, "🧪 Test de connexion au backend")
+                val isConnected = blockchainService.testConnection()
+                
+                Log.d(TAG, "🧪 Résultat du test: $isConnected")
+                
+                withContext(Dispatchers.Main) {
+                    onResult(isConnected)
+                }
+                
+            } catch (e: Exception) {
+                Log.e(TAG, "❌ Erreur lors du test de connexion", e)
+                withContext(Dispatchers.Main) {
+                    onResult(false)
+                }
+            }
+        }
     }
 } 

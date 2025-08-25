@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import bm.babimumba.diabete.activity.IntegrityCheckActivity
 import bm.babimumba.diabete.auth.LoginActivity
 import bm.babimumba.diabete.databinding.FragmentProfilMedecinBinding
 import bm.babimumba.diabete.model.Medecin
@@ -88,6 +89,12 @@ class ProfilMedecinFragment : Fragment() {
         binding.btnModifierProfil.setOnClickListener {
             // TODO: Implémenter la modification du profil
             Toast.makeText(requireContext(), "Fonctionnalité à venir", Toast.LENGTH_SHORT).show()
+        }
+        
+        binding.btnVerifierIntegrite.setOnClickListener {
+            // Lancer l'activité de vérification d'intégrité
+            val intent = Intent(requireContext(), IntegrityCheckActivity::class.java)
+            startActivity(intent)
         }
     }
 } 

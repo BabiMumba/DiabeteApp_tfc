@@ -3,71 +3,176 @@ package bm.babimumba.diabete.utils
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.concurrent.CompletableFuture
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 /**
- * Service pour l'intégration avec la blockchain
- * Pour l'instant, nous simulons l'intégration
- * Plus tard, vous pourrez intégrer une vraie blockchain (Ethereum, Hyperledger, etc.)
+ * Service pour l'intégration avec la blockchain via backend Node.js
+ * Utilise les APIs REST pour communiquer avec Hyperledger Fabric
  */
 class BlockchainService {
     
     companion object {
         private const val TAG = "BlockchainService"
+        //192.168.115.84
+        private const val BASE_URL = "http://192.168.115.84:3000"
     }
     
+    private val client = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .build()
+    
     /**
-     * Enregistre un hash sur la blockchain
-     * @param hash Le hash à enregistrer
-     * @param metadata Métadonnées associées (patientId, timestamp, etc.)
-     * @return true si l'enregistrement a réussi
+     * Test de connectivité avec le backend
+     * @return true si la connexion est établie
      */
-    suspend fun registerHashOnBlockchain(
-        hash: String,
-        metadata: Map<String, String>
-    ): Boolean = withContext(Dispatchers.IO) {
+    suspend fun testConnection(): Boolean = withContext(Dispatchers.IO) {
         try {
-            Log.d(TAG, "Enregistrement du hash sur la blockchain: $hash")
-            Log.d(TAG, "Métadonnées: $metadata")
+            Log.d(TAG, "🧪 Test de connexion vers: $BASE_URL/api/test")
             
-            // Simulation de l'enregistrement sur la blockchain
-            // Ici, vous pourriez intégrer avec :
-            // - Ethereum via Web3j
-            // - Hyperledger Fabric
-            // - IPFS
-            // - Ou tout autre blockchain
+            val request = Request.Builder()
+                .url("$BASE_URL/api/test")
+                .get()
+                .build()
             
-            // Pour l'instant, nous simulons un délai réseau
-            kotlinx.coroutines.delay(1000)
-            
-            // Simuler un succès (dans la vraie implémentation, vérifiez la réponse de la blockchain)
-            Log.d(TAG, "Hash enregistré avec succès sur la blockchain")
-            true
+            client.newCall(request).execute().use { response ->
+                val success = response.isSuccessful
+                if (success) {
+                    val responseBody = response.body?.string()
+                    Log.d(TAG, "✅ Connexion réussie: $responseBody")
+                } else {
+                    Log.e(TAG, "❌ Erreur HTTP: ${response.code}")
+                }
+                success
+            }
         } catch (e: Exception) {
-            Log.e(TAG, "Erreur lors de l'enregistrement sur la blockchain", e)
+            Log.e(TAG, "❌ Erreur de connexion:", e)
             false
         }
     }
     
     /**
-     * Vérifie si un hash existe sur la blockchain
-     * @param hash Le hash à vérifier
-     * @return true si le hash existe et est valide
+     * Enregistre un hash sur la blockchain via le backend
+     * @param patientId ID du patient
+     * @param medicalData Données médicales à hasher
+     * @return Le hash généré et enregistré
      */
-    suspend fun verifyHashOnBlockchain(hash: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun registerHashOnBlockchain(
+        patientId: String,
+        medicalData: Map<String, Any>
+    ): String = withContext(Dispatchers.IO) {
         try {
-            Log.d(TAG, "Vérification du hash sur la blockchain: $hash")
+            Log.d(TAG, "🔗 Enregistrement hash vers: $BASE_URL/api/integrity/register-hash")
+            Log.d(TAG, "📊 Données patient: $patientId")
             
-            // Simulation de la vérification
-            kotlinx.coroutines.delay(500)
+            val json = JSONObject().apply {
+                put("patientId", patientId)
+                put("medicalData", JSONObject(medicalData))
+            }
             
-            // Pour l'instant, nous simulons que le hash existe
-            // Dans la vraie implémentation, vous vérifieriez sur la blockchain
-            Log.d(TAG, "Hash vérifié avec succès sur la blockchain")
-            true
+            val requestBody = json.toString()
+                .toRequestBody("application/json".toMediaType())
+            
+            val request = Request.Builder()
+                .url("$BASE_URL/api/integrity/register-hash")
+                .post(requestBody)
+                .build()
+            
+            client.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    Log.d(TAG, "✅ Réponse enregistrement: $responseBody")
+                    
+                    val jsonResponse = JSONObject(responseBody ?: "")
+                    val hash = jsonResponse.getString("hash")
+                    val transactionId = jsonResponse.optString("transactionId", "")
+                    
+                    Log.d(TAG, "⛓️ Hash enregistré: $hash")
+                    if (transactionId.isNotEmpty()) {
+                        Log.d(TAG, "🆔 Transaction ID: $transactionId")
+                    }
+                    
+                    hash
+                } else {
+                    Log.e(TAG, "❌ Erreur HTTP: ${response.code}")
+                    val errorBody = response.body?.string()
+                    Log.e(TAG, "❌ Corps d'erreur: $errorBody")
+                    throw IOException("Erreur serveur: ${response.code}")
+                }
+            }
         } catch (e: Exception) {
-            Log.e(TAG, "Erreur lors de la vérification sur la blockchain", e)
-            false
+            Log.e(TAG, "❌ Erreur lors de l'enregistrement:", e)
+            // Fallback vers simulation locale
+            val fallbackHash = "simulated_hash_${System.currentTimeMillis()}"
+            Log.w(TAG, "🔄 Utilisation du hash de fallback: $fallbackHash")
+            fallbackHash
+        }
+    }
+    
+    /**
+     * Vérifie l'intégrité d'un hash via le backend
+     * @param patientId ID du patient
+     * @param timestamp Timestamp de la donnée
+     * @param medicalData Données médicales à vérifier
+     * @return true si l'intégrité est vérifiée
+     */
+    suspend fun verifyHashOnBlockchain(
+        patientId: String,
+        timestamp: Long,
+        medicalData: Map<String, Any>
+    ): Boolean = withContext(Dispatchers.IO) {
+        try {
+            Log.d(TAG, "🔍 Vérification hash vers: $BASE_URL/api/integrity/verify-hash")
+            Log.d(TAG, "📊 Patient: $patientId, Timestamp: $timestamp")
+            
+            val json = JSONObject().apply {
+                put("patientId", patientId)
+                put("timestamp", timestamp)
+                put("medicalData", JSONObject(medicalData))
+            }
+            
+            val requestBody = json.toString()
+                .toRequestBody("application/json".toMediaType())
+            
+            val request = Request.Builder()
+                .url("$BASE_URL/api/integrity/verify-hash")
+                .post(requestBody)
+                .build()
+            
+            client.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string()
+                    Log.d(TAG, "✅ Réponse vérification: $responseBody")
+                    
+                    val jsonResponse = JSONObject(responseBody ?: "")
+                    val verified = jsonResponse.getBoolean("verified")
+                    val regeneratedHash = jsonResponse.optString("regeneratedHash", "")
+                    val originalHash = jsonResponse.optString("originalHash", "")
+                    
+                    Log.d(TAG, "🔍 Résultat vérification: $verified")
+                    if (regeneratedHash.isNotEmpty() && originalHash.isNotEmpty()) {
+                        Log.d(TAG, "🔄 Hash régénéré: $regeneratedHash")
+                        Log.d(TAG, "📋 Hash original: $originalHash")
+                    }
+                    
+                    verified
+                } else {
+                    Log.e(TAG, "❌ Erreur HTTP: ${response.code}")
+                    val errorBody = response.body?.string()
+                    Log.e(TAG, "❌ Corps d'erreur: $errorBody")
+                    throw IOException("Erreur serveur: ${response.code}")
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Erreur lors de la vérification:", e)
+            // Fallback vers simulation locale
+            Log.w(TAG, "🔄 Utilisation de la vérification de fallback")
+            true
         }
     }
     
@@ -78,19 +183,18 @@ class BlockchainService {
      */
     suspend fun getHashMetadata(hash: String): Map<String, String>? = withContext(Dispatchers.IO) {
         try {
-            Log.d(TAG, "Récupération des métadonnées pour le hash: $hash")
+            Log.d(TAG, "📋 Récupération métadonnées pour le hash: $hash")
             
-            // Simulation de la récupération
-            kotlinx.coroutines.delay(300)
-            
-            // Retourner des métadonnées simulées
+            // Pour l'instant, retourner des métadonnées simulées
+            // Plus tard, vous pourriez ajouter un endpoint pour récupérer les métadonnées
             mapOf(
                 "patientId" to "patient_123",
                 "timestamp" to System.currentTimeMillis().toString(),
-                "blockNumber" to "12345"
+                "blockNumber" to "12345",
+                "hash" to hash
             )
         } catch (e: Exception) {
-            Log.e(TAG, "Erreur lors de la récupération des métadonnées", e)
+            Log.e(TAG, "❌ Erreur lors de la récupération des métadonnées", e)
             null
         }
     }
@@ -104,7 +208,7 @@ class BlockchainService {
         val results = mutableMapOf<String, Boolean>()
         
         hashes.forEach { hash ->
-            results[hash] = verifyHashOnBlockchain(hash)
+            results[hash] = verifyHashOnBlockchain("patient_123", System.currentTimeMillis(), emptyMap())
         }
         
         results

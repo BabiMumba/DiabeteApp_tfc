@@ -132,7 +132,7 @@ class DonneeMedicaleAdapter(
                         }
                 }
             } else {
-                binding.tvSource.text = "Source : ${donnee.source}"
+            binding.tvSource.text = "Source : ${donnee.source}"
             }
         }
     }

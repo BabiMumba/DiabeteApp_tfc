@@ -178,6 +178,17 @@
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVerifierIntegrite"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="🔒 Vérifier intégrité des données"
+                android:textColor="@color/Accent"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/Accent" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDeconnexion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

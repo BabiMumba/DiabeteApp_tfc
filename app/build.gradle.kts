@@ -82,4 +82,7 @@ dependencies {
     //lecteur de pdf
     //implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
     implementation ("com.github.DImuthuUpe:AndroidPdfViewer:2.8.1")
+    
+    //OkHttp pour les appels réseau
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }
